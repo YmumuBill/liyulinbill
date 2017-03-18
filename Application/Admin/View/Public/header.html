@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="__COMMON__/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="__COMMON__/bootstrap/css/font-awesome.min.css">
+<link rel="stylesheet" href="__PUBLIC__/css/header.css">
+<header>
+    <nav class="header navbar navbar-static-top">
+        <div class="navbar-header">
+            <a href="javascript:void(0);" class=" btn btn-primary mm-nav-toggle show">
+                <i class="icon-align-justify"></i>
+            </a>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <a href="javascript:void(0);"><i class="icon-user"></i> {$adminInfo.name}</a>
+            </li>
+            <li>
+                <a href="{:U('Admin/do_logout')}">
+                    <i class="icon-signout"></i> 退出
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<script>
+    $(function(){
+        $("header .mm-nav-toggle").click(function(){
+            if($(this).hasClass("show")){
+                $(this).removeClass("show");
+                $("#left").animate({
+                    left:"-220px",
+                    opacity:0,
+                },"slow");
+                $("#body").animate({
+                    paddingLeft:"0px",
+                },400);
+            }else {
+                $(this).addClass("show");
+                $("#left").animate({
+                    left:"0px",
+                    opacity:1,
+                },"slow");
+                $("#body").animate({
+                    paddingLeft:"220px",
+                },400);
+            }
+        })
+    })
+</script>

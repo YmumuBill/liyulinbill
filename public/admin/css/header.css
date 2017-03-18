@@ -1,0 +1,4 @@
+header .header{background-color: #f3f3f4;margin: 0;height: 60px;border-bottom:1px solid #e7eaec;width: 100%;position: fixed;}
+header .navbar-header .mm-nav-toggle{position: fixed;top: 12px;left: 20px;}
+header .navbar-right{height: 60px;line-height: 42px;margin-right: 10px;}
+header .navbar-right li{display:inline-block!important;}

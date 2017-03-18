@@ -1,0 +1,36 @@
+[ 2017-03-18T13:40:12+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=vertify?0.7846858788468636
+ERR: 非法操作:vertify?0.7846858788468636
+
+[ 2017-03-18T13:42:46+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=vertify&0.8165057853742457
+ERR: 非法操作:vertify
+
+[ 2017-03-18T13:42:56+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=vertify
+ERR: 非法操作:vertify
+
+[ 2017-03-18T13:44:10+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=vertify
+ERR: 非法操作:vertify
+
+[ 2017-03-18T13:44:52+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=vertify
+ERR: 非法操作:vertify
+
+[ 2017-03-18T13:44:53+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=vertify
+ERR: 非法操作:vertify
+
+[ 2017-03-18T13:45:19+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=verify?0.3003094134855262
+ERR: 非法操作:verify?0.3003094134855262
+
+[ 2017-03-18T15:50:10+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Index&a=index
+ERR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'access.role_id' in 'on clause'
+
+[ 2017-03-18T15:53:27+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=index
+ERR: 无法加载控制器:Role
+
+[ 2017-03-18T17:46:34+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Web&a=menus
+ERR: 无法加载控制器:Web
+
+[ 2017-03-18T18:02:05+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Setting&a=lists
+ERR: 无法加载控制器:Setting
+
+[ 2017-03-18T18:08:29+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Videos&a=index
+ERR: 无法加载控制器:Videos
+
