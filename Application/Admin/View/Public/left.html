@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="__PUBLIC__/css/left.css">
+<div id="left">
+    <nav class="navbar-default navbar-static-side">
+        <ul class="nav">
+            <foreach name="menu" item="item" key="key">
+                <if condition="$item.show eq 1">
+                    <li class="{$item.class}">
+                        <if condition="$item['level'] eq 1" >
+                            <a href="/m.php?m=Admin&c={$item.m}&a={$item.a}"><i class="fa {$item.iclass}"></i>{$item.name}</a>
+                            <else/>
+                            <a href="javascript:void(0)" class="mm-left-toggle-ul"><i class="fa {$item.iclass}"></i>{$item.name}<i class="icon-angle-left"></i></a>
+                            <ul class="nav nav-second-level">
+                                <foreach name="item.group" item="item1" key="key1">
+                                    <if condition="$item1.show eq 1">
+                                        <li class="{$item1.class}"><a href="/m.php?m=Admin&c={$item1.m}&a={$item1.a}"><i class="icon-angle-right"></i> {$item1.name}</a></li>
+                                    </if>
+                                </foreach>
+                            </ul>
+                        </if>
+                    </li>
+                </if>
+            </foreach>
+        </ul>
+    </nav>
+</div>
+<script>
+    $(function(){
+        $("#left .mm-left-toggle-ul").click(function(){
+            var par = $(this).parents("li");
+            if( $(par).hasClass("on") ){
+                $(par).removeClass("on");
+                $(par).find("ul").slideUp();
+            }
+            else{
+                $(par).addClass("on");
+                $(par).find("ul").slideDown();
+            }
+        });
+    })
+</script>

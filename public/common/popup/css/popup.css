@@ -1,0 +1,135 @@
+.mm-popup-container{
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background: #FCFCFC;
+    font-size: 0px;
+    border: 2px solid #cdcdcd;
+    box-shadow: 0px 0px 6px #cccccc;
+    border-radius: 4px;
+    z-index: 2000;
+    /*width: 400px;
+    height: 50px;
+    margin-left: -200px;*/
+}
+.mm-popup-icon{
+    float: left;
+    height: 100%;
+    font-size: 0px;
+}
+.mm-popup-img{
+    max-height: 100%;
+    line-height: 100%;
+    vertical-align: middle;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+.mm-popup-text{
+    float: left;
+    font-size: 14px;
+    color: #333333;
+    line-height: 50px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+.mm-popup-confirm-bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+/*            background: rgba(0,0,0,0.3);*/
+    background: #999999;
+    opacity: 0.5;
+    filter:alpha(opacity=50); 
+    z-index: 2000;
+}
+.mm-popup-confirm-container{
+    overflow: hidden;
+    width: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 2100;
+    background: #ffffff;
+    border-radius: 4px;
+    border: 2px solid #9A9EA2;
+/*            box-shadow: 0px 0px 6px #cccccc;*/
+
+    margin-left: -200px;
+}
+.mm-popup-confirm-header{
+    width: 100%;
+    height: 30px;
+    background: #F6F6F6;
+    box-sizing: border-box;
+    border-bottom: 1px solid #dddddd;
+    box-sizing: border-box;
+    padding: 4px;
+}
+.mm-popup-confirm-title{
+    display: block;
+    float: left;
+    height: 22px;
+    line-height: 22px;
+    font-size: 16px;
+    box-sizing: border-box;
+    color: #4D4C4C;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+.mm-popup-confirm-close{
+    display: block;
+    float: right;
+    width: 22px;
+    height: 22px;
+    font-size: 0px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    background: transparent;
+    cursor: pointer;
+}
+.mm-popup-confirm-close:hover{
+    background: #ffffff;
+    border: 1px solid #dddddd;
+}
+.mm-popup-confirm-content{
+    width: 400px;
+    height: 80px;
+    font-size: 16px;
+    color: #333333;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.mm-popup-confirm-button{
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    border-top: 1px solid #dddddd;
+    padding: 6px 10px 0px 10px;
+    font-size: 0px;
+}
+.mm-popup-confirm-ok,.mm-popup-confirm-cancel{
+    background: transparent;
+    outline: none;
+    border: 1px solid #dddddd;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-size: 14px;
+    color: #4d4c4c;
+    float: right;
+    margin-left: 10px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+.mm-popup-confirm-ok:hover,.mm-popup-confirm-cancel:hover{
+    background: #408BCA;
+    color: #ffffff;
+}
