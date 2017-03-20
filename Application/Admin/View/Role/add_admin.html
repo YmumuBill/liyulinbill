@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+    <link rel="stylesheet" href="__PUBLIC__/css/common.css">
+    <script src="__COMMON__/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
+    <style>
+        #body .col-sm-10{width: 400px;}
+    </style>
+</head>
+<body>
+<include file="Public/header" />
+<include file="Public/left" />
+<div id="body">
+    <div class="row wrapper mm-head-nav">
+        <div class="col-lg-10">
+            <h2>管理员分组设置</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{:U('index/index')}">主页</a>
+                </li>
+                <li>
+                    <a>权限管理</a>
+                </li>
+                <li>
+                    <strong>新增管理员</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="content">
+        <div class="ui-panel bordered">
+            <h5 style="line-height: 40px;padding-left: 10px;margin: 0;height: 40px;border-bottom: 1px solid #e7eaec;">管理员详情</h5>
+            <div style="padding: 5px 10px;">
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">登录名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="name" id="adm_name" value="">
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">登录密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="name" id="adm_password" value="">
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">管理员分组</label>
+                    <div class="col-sm-10">
+                        <select name="role-select" id="role_id" style="height: 35px;width: 370px;">
+                            <foreach name="lists" item="item" key="key">
+                                <option value="{$item.id}">{$item.name}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">姓名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="name" id="name" value="">
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <div class="col-m-4 col-sm-offset-2">
+                        <button class="btn btn-primary submit" type="button" id="save-conf">保存内容</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $("#save-conf").click(function(){
+            var adm_name = $("#adm_name").val();
+            if( adm_name == ""){
+                alert("请输入登录名！");
+                return;
+            }
+            var adm_password = $("#adm_password").val();
+            if( adm_password == ""){
+                alert("请输入登录密码！");
+                return;
+            }
+            var role_id = $("#role_id").val();
+            var name = $("#name").val();
+            if( name == ""){
+                alert("请输入名字！");
+                return;
+            }
+
+            $.ajax({
+                url : "{:U('Role/save_admin')}",
+                data: { "adm_name" : adm_name , "adm_password" : adm_password , "name" : name ,
+                    "role_id": role_id , "ajax":1},
+                type:"POST",
+                dataType: "json",
+                success: function(obj){
+                    if(obj.status){
+                        alert(obj.info);
+                        location.href = "{:U('Role/admins')}";
+                    }
+                    else{
+                        alert(obj.info);location.reload();
+                    }
+                },
+                error:function(data){
+                    alert("程序出错了！");
+                }
+            });
+        });
+
+    })
+</script>
+</body>
+</html>
