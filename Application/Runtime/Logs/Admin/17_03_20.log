@@ -1,0 +1,33 @@
+[ 2017-03-20T17:42:21+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=index
+ERR: 模板不存在:./Application/Admin/View/Role/index.html
+
+[ 2017-03-20T19:00:54+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=add
+ERR: Think\Model:getAll方法不存在！
+
+[ 2017-03-20T19:17:24+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=admins
+ERR: 模板不存在:./Application/Admin/View/Public/404.html
+
+[ 2017-03-20T19:17:29+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=admins
+ERR: 模板不存在:./Application/Admin/View/Public/404.html
+
+[ 2017-03-20T19:19:16+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=admins
+ERR: 模板不存在:./Application/Admin/View/Public/404.html
+
+[ 2017-03-20T19:19:20+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=admins
+ERR: 模板不存在:./Application/Admin/View/Public/404.html
+
+[ 2017-03-20T19:30:18+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=do_add_admin
+ERR: 模板不存在:./Application/Admin/View/Public/404.html
+
+[ 2017-03-20T19:44:05+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=add
+ERR: 模板不存在:./Application/Admin/View/Public/404.html
+
+[ 2017-03-20T19:44:10+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=edit&id=1
+ERR: 模板不存在:./Application/Admin/View/Public/404.html
+
+[ 2017-03-20T19:58:52+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=edit&id=2
+ERR: 模板不存在:./Application/Admin/View/Role/edit.html
+
+[ 2017-03-20T19:59:26+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=do_edit
+ERR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') LIMIT 1' at line 1
+
