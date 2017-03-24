@@ -28,12 +28,14 @@
         $("#left .mm-left-toggle-ul").click(function(){
             var par = $(this).parents("li");
             if( $(par).hasClass("on") ){
+                $(par).find("ul").slideUp(300);
                 $(par).removeClass("on");
-                $(par).find("ul").slideUp();
+
             }
             else{
+                $(par).find("ul").slideDown(300);
                 $(par).addClass("on");
-                $(par).find("ul").slideDown();
+
             }
         });
     })

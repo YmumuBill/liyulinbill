@@ -182,7 +182,8 @@
                         location.href = "<?php echo U('Role/admins');?>";
                     }
                     else{
-                        alert(obj.info);location.reload();
+                        alert(obj.info);
+                        location.reload();
                     }
                 },
                 error:function(data){
