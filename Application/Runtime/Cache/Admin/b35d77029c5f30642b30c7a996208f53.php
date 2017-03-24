@@ -3,14 +3,15 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>后台管理系统</title>
-    <link rel="stylesheet" href="/public/admin/datatables/dataTables.bootstrap.css">
-    <link rel="stylesheet" href="/public/admin/css/common.css">
-    <script src="/public/common/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
 </head>
 <body>
 <link rel="stylesheet" href="/public/common/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/public/common/bootstrap/css/font-awesome.min.css">
+<link rel="stylesheet" href="/public/admin/css/common.css">
+<link rel="stylesheet" href="/public/admin/css/animate.css">
+<link rel="stylesheet" href="/public/admin/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="/public/admin/css/header.css">
+<script src="/public/common/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
 <header>
     <nav class="header navbar navbar-static-top">
         <div class="navbar-header">
@@ -76,12 +77,14 @@
         $("#left .mm-left-toggle-ul").click(function(){
             var par = $(this).parents("li");
             if( $(par).hasClass("on") ){
+                $(par).find("ul").slideUp(300);
                 $(par).removeClass("on");
-                $(par).find("ul").slideUp();
+
             }
             else{
+                $(par).find("ul").slideDown(300);
                 $(par).addClass("on");
-                $(par).find("ul").slideDown();
+
             }
         });
     })
@@ -103,14 +106,14 @@
             </ol>
         </div>
     </div>
-    <div class="content">
+    <div class="content animated fadeInRight">
         <div class="ui-panel bordered">
             <div style="height: 60px;border-bottom: 1px solid #e7eaec;margin-bottom: 15px;padding: 15px">
                 <button onclick="location.href='/m.php?m=Admin&c=Role&a=add'" type="button" class="btn btn-w-m btn-success"
                         style="float: left;height: 30px;box-sizing: border-box;-moz-box-sizing: border-box;padding: 0;min-width: 100px;margin-right: 20px;">+新增</button>
             </div>
             <div class="tables">
-                <table class="table table-bordered dataTable table-striped table-hover dataTables-example" id="tableview">
+                <table class=" table-striped table-hover dataTables-example" id="tableview">
                     <thead>
                     <tr>
                         <th width="5%">序号</th>
@@ -137,6 +140,14 @@
 </div>
 <script src="/public/admin/datatables/jquery.dataTables.js" type="application/javascript"></script>
 <script src="/public/admin/datatables/dataTables.bootstrap.js" type="application/javascript"></script>
+<div class="footer" style="position: absolute;bottom: 0px;width: auto;min-width: 300px;left: 210px;z-index: 1;">
+    <div class="pull-right">
+        By：<a href="http://www.liyulinbill.com/" target="_blank">李渝林</a>
+    </div>
+    <div>
+        <strong>Copyright</strong> liyulinbill © 2017
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $('.dataTables-example').dataTable({

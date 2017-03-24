@@ -3,9 +3,6 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>后台管理系统</title>
-    <link rel="stylesheet" href="__PUBLIC__/datatables/dataTables.bootstrap.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/common.css">
-    <script src="__COMMON__/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
 </head>
 <body>
 <include file="Public/header" />
@@ -27,7 +24,7 @@
             </ol>
         </div>
     </div>
-    <div class="content">
+    <div class="content animated fadeInRight">
         <div class="ui-panel bordered">
             <div style="height: 60px;border-bottom: 1px solid #e7eaec;margin-bottom: 15px;padding: 15px">
                 <button onclick="location.href='/m.php?m=Admin&c=Role&a=add'" type="button" class="btn btn-w-m btn-success"
@@ -61,8 +58,7 @@
     </div>
 
 </div>
-<script src="__PUBLIC__/datatables/jquery.dataTables.js" type="application/javascript"></script>
-<script src="__PUBLIC__/datatables/dataTables.bootstrap.js" type="application/javascript"></script>
+<include file="Public/footer"/>
 <script>
     $(document).ready(function () {
         $('.dataTables-example').dataTable({

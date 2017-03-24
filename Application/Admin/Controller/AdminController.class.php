@@ -37,7 +37,7 @@ class AdminController extends Controller {
                 exit;
             }
             else {
-                if($adm_data['id']!=0){
+                if($adm_data['id']!=1){
                     //租户
                     $web = M("web")->where("tenant_id = ".$adm_data['role_id']." and is_effect = 1")->find();
                     if($web['url']==$_SERVER['SERVER_NAME']){

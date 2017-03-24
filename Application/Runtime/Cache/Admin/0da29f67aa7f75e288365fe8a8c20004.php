@@ -3,8 +3,6 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>后台管理系统</title>
-    <link rel="stylesheet" href="/public/admin/css/common.css">
-    <script src="/public/common/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
     <style>
         #body .col-sm-10{width: 400px;}
     </style>
@@ -12,7 +10,10 @@
 <body>
 <link rel="stylesheet" href="/public/common/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/public/common/bootstrap/css/font-awesome.min.css">
+<link rel="stylesheet" href="/public/admin/css/common.css">
+<link rel="stylesheet" href="/public/admin/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="/public/admin/css/header.css">
+<script src="/public/common/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
 <header>
     <nav class="header navbar navbar-static-top">
         <div class="navbar-header">
@@ -78,12 +79,14 @@
         $("#left .mm-left-toggle-ul").click(function(){
             var par = $(this).parents("li");
             if( $(par).hasClass("on") ){
+                $(par).find("ul").slideUp(300);
                 $(par).removeClass("on");
-                $(par).find("ul").slideUp();
+
             }
             else{
+                $(par).find("ul").slideDown(300);
                 $(par).addClass("on");
-                $(par).find("ul").slideDown();
+
             }
         });
     })
@@ -151,6 +154,16 @@
             </div>
 
         </div>
+    </div>
+</div>
+<script src="/public/admin/datatables/jquery.dataTables.js" type="application/javascript"></script>
+<script src="/public/admin/datatables/dataTables.bootstrap.js" type="application/javascript"></script>
+<div class="footer" style="position: absolute;bottom: 0px;width: auto;min-width: 300px;left: 210px;z-index: 1;">
+    <div class="pull-right">
+        By：<a href="http://www.liyulinbill.com/" target="_blank">李渝林</a>
+    </div>
+    <div>
+        <strong>Copyright</strong> liyulinbill © 2017
     </div>
 </div>
 <script>
