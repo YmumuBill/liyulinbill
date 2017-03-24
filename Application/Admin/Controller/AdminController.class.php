@@ -13,6 +13,7 @@ class AdminController extends Controller {
     public function do_login(){
         $adm_name = trim( I ( 'username'));
         $adm_password = trim( I('pwd') );
+        $ajax = intval(I('ajax'));  //是否ajax提交
 
         if($adm_name == '') {
             echo json_encode(array("status"=>false , "info"=>"管理员帐号不能为空！"));
@@ -36,17 +37,27 @@ class AdminController extends Controller {
                 exit;
             }
             else {
+                if($adm_data['id']!=0){
+                    //租户
+                    $web = M("web")->where("tenant_id = ".$adm_data['role_id']." and is_effect = 1")->find();
+                    if($web['url']==$_SERVER['SERVER_NAME']){
+                        session("webInfo",$web);
+                    }else{
+                        unset($adm_data);
+                        $this->error( "管理员域名错误" ,$ajax);die;
+                    }
+                }
+
                 //登录成功
-                session_start();
-                session(array('expire'=>3600));
+                $adm_data['adm_role_name'] = M("Role")->where(array("id"=>$adm_data['role_id']))->getField("name");
                 session("adminInfo",$adm_data);
                 save_log( "登录" , "登录成功" );
                 M("Admin")->where("id = " . $adm_data["id"] )->save(array("login_time"=>time() , "login_ip"=> get_client_ip() ));
                 $this->success("登录成功！",1);
             }
-        }else
+        }
+        else
         {
-//            save_log($adm_name . "管理员帐号错误" , 0 ); //记录用户名登录错误的LOG
             echo json_encode(array("status"=>false , "info"=>$adm_name . "管理员帐号错误"));
         }
     }

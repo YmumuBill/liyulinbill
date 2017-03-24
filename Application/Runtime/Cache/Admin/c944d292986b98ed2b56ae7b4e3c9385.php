@@ -170,7 +170,7 @@
             }
 
             $.ajax({
-                url : "<?php echo U('Role/do_add_admin');?>",
+                url : "<?php echo U('Role/save_admin');?>",
                 data: { "adm_name" : adm_name , "adm_password" : adm_password , "name" : name ,
                     "role_id": role_id , "ajax":1},
                 type:"POST",
