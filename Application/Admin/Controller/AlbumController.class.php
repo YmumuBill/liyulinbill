@@ -9,8 +9,6 @@ namespace Admin\Controller;
 use Think\Controller;
 class AlbumController extends BaseController{
     public function index(){
-        $check = A("Index","Logic");
-        $check->check_version();
         $this->display();
     }
 
