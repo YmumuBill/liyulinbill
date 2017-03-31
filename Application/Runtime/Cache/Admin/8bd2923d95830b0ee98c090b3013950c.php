@@ -7,11 +7,11 @@
 <body>
 <link rel="stylesheet" href="/public/common/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/public/common/bootstrap/css/font-awesome.min.css">
+<link rel="stylesheet" href="/public/common/popup/css/popup.css">
 <link rel="stylesheet" href="/public/admin/css/style.css">
 <link rel="stylesheet" href="/public/admin/css/animate.css">
 <link rel="stylesheet" href="/public/admin/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="/public/admin/css/common.css">
-<link rel="stylesheet" href="/public/admin/css/header.css">
 <script src="/public/common/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
 <header>
     <nav class="header navbar navbar-static-top ">
@@ -88,7 +88,6 @@
         }
     })
 </script>
-<link rel="stylesheet" href="/public/admin/css/left.css">
 <div id="left">
     <nav class="navbar-default navbar-static-side">
         <ul class="nav">
@@ -121,17 +120,69 @@
     })
 </script>
 <div id="body">
-    <div class="row wrapper mm-head-nav">
+    <div class="row  wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>首页</h2>
+            <h2>文章列表</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="<?php echo U('Index/index');?>">主页</a>
+                </li>
+                <li>
+                    <strong>文章管理</strong>
+                </li>
+            </ol>
         </div>
     </div>
-    <div class="content animated fadeInRight">
+    <div class="tab-nav">
+        <ul class="nav nav-tabs">
+            <li ><a href="<?php echo U('Article/index');?>">文章管理</a></li>
+            <li class="active" ><a href="javascript:void(0);">分类管理</a></li>
+        </ul>
+    </div>
+    <div class="ibox animated fadeInRight">
+        <div class="ibox-title">
+            <div>
+                <button class="btn btn-success " id="add-cate">+新增</button>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table class="table table-striped table-bordered table-hover dataTables-example">
+                <thead>
+                <tr>
+                    <th >#</th>
+                    <th >名字</th>
+                    <th >文章总数</th>
+                    <th >创建时间</th>
+                    <th >操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
 
+<div class="modal " id="myModal" tabindex="1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close mm-close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">添加/编辑文章分类</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label>分类名称</label> <input type="text" placeholder="请输入类型,例.新闻、公告。" class="form-control" id="input-cate"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white mm-close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-success">保存</button>
+            </div>
+        </div>
     </div>
 </div>
 <script src="/public/admin/datatables/jquery.dataTables.js" type="application/javascript"></script>
 <script src="/public/admin/datatables/dataTables.bootstrap.js" type="application/javascript"></script>
+<script src="/public/common/popup/popup.js" type="text/javascript"></script>
 <div class="footer" style="position: absolute;bottom: 0px;width: auto;min-width: 300px;right: 30px;z-index: 1;">
     <div class="pull-right">
         By：<a href="http://www.liyulinbill.com/" target="_blank">李渝林</a>
@@ -140,5 +191,37 @@
         <strong>Copyright</strong> liyulinbill © 2017
     </div>
 </div>
+<script>
+    $(function(){
+        get_cate_lists();
+
+        //新增
+        $("#add-cate").click(function(){
+            $("#myModal").addClass("in");
+            $("#myModal").css("display","block");
+        });
+        function get_cate_lists(){
+            $('.dataTables-example').dataTable().fnClearTable();
+            $('.dataTables-example').dataTable().fnDestroy();
+            $('.dataTables-example').dataTable({
+                "ajax": "<?php echo U('ArticleCate/get_lists');?>",
+                "bPaginate": true, //翻页功能
+                "bLengthChange": true, //改变每页显示数据数量
+                "bFilter": true, //过滤功能
+                "bSort": false, //排序功能
+                "bInfo": true,//页脚信息
+                "bAutoWidth": true,
+                "columns": [
+                    {"data": "data1"},
+                    {"data": "data2"},
+                    {"data": "data3"},
+                    {"data": "data4"},
+                    {"data": "data5"}
+                ]
+            });
+            $("table:eq(0) th").removeClass("sorting_asc");
+        }
+    })
+</script>
 </body>
 </html>

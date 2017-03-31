@@ -11,4 +11,20 @@ class ArticleCateController extends BaseController{
     public function index(){
         $this->display();
     }
+
+    public function get_lists(){
+        $cateLogic = A("ArticleCate","Logic");
+        $data = $cateLogic->get_lists();
+        $info = array(
+            "draw"=>2,
+            "recordsTotal"=> count( $data ),
+            "recordsFiltered" => count( $data ),
+            "data"=> $data,
+        );
+        $this->ajaxReturn($info);
+    }
+
+    public function add_cate(){
+
+    }
 }

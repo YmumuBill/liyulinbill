@@ -1,6 +1,21 @@
 /**
  * Created by liyulin on 2017-03-18.
  */
+$(function(){
+    //关闭
+    $("div[role='dialog'] .mm-close").click(function(){
+        var div = $(this).parents("div[role='dialog']");
+        div.fadeOut(400);
+        div.css("display","none");
+    });
+    //提示
+    $("div[role='dialog'] input[type='text']").blur(function(){
+        if($(this).val()==""){
+            show_error($(this).attr("placeholder"));
+        }
+    })
+
+})
 function show_error(content){
     if($('.sn-popup-container').length > 0){
         $('.sn-popup-container').remove();

@@ -9,8 +9,9 @@ namespace Admin\Controller;
 use Think\Controller;
 class ArticleController extends BaseController{
     public function index(){
-        $check = A("Index","Logic");
-        $check->check_version();
+        $condition = "is_delete = 0";
+        $lists = D("Article")->getAll($condition);
+        $this->assign("lists",$lists);
         $this->display();
     }
 }
