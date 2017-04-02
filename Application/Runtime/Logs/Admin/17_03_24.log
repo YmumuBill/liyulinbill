@@ -1,0 +1,39 @@
+[ 2017-03-24T16:08:34+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Index&a=index
+ERR: SQLSTATE[42000]: Syntax error or access violation: 1067 Invalid default value for 'parent'
+
+[ 2017-03-24T17:20:58+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Article&a=index
+ERR: 无法加载控制器:Article
+
+[ 2017-03-24T17:22:04+08:00 ] 127.0.0.1 /m.php?m=Admin&c=ArticleCate&a=index
+ERR: 无法加载控制器:ArticleCate
+
+[ 2017-03-24T17:23:22+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Album&a=index
+ERR: 无法加载控制器:Album
+
+[ 2017-03-24T17:24:05+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Album&a=index
+ERR: 模板不存在:./Application/Admin/View/Album/index.html
+
+[ 2017-03-24T17:24:12+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Album&a=lists
+ERR: 非法操作:lists
+
+[ 2017-03-24T17:24:55+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Setting&a=banner
+ERR: 无法加载控制器:Setting
+
+[ 2017-03-24T17:25:07+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Setting&a=lists
+ERR: 无法加载控制器:Setting
+
+[ 2017-03-24T17:25:22+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Web&a=setting
+ERR: 无法加载控制器:Web
+
+[ 2017-03-24T17:26:19+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Setting&a=lists
+ERR: 无法加载控制器:Setting
+
+[ 2017-03-24T17:27:45+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Videos&a=index
+ERR: 无法加载控制器:Videos
+
+[ 2017-03-24T17:28:51+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Web&a=themes_m
+ERR: 非法操作:themes_m
+
+[ 2017-03-24T17:57:27+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Log&a=Index
+ERR: 无法加载控制器:Log
+

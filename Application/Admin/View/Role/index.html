@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+</head>
+<body>
+<include file="Public/header" />
+<include file="Public/left" />
+<div id="body">
+    <div class="row wrapper mm-head-nav">
+        <div class="col-lg-10">
+            <h2>管理员分组设置</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{:U('index/index')}">主页</a>
+                </li>
+                <li>
+                    <a>权限管理</a>
+                </li>
+                <li>
+                    <strong>管理员分组列表</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="content animated fadeInRight">
+        <div class="ui-panel bordered">
+            <div style="height: 60px;border-bottom: 1px solid #e7eaec;margin-bottom: 15px;padding: 15px">
+                <button onclick="location.href='/m.php?m=Admin&c=Role&a=add'" type="button" class="btn btn-w-m btn-success"
+                        style="float: left;height: 30px;box-sizing: border-box;-moz-box-sizing: border-box;padding: 0;min-width: 100px;margin-right: 20px;">+新增</button>
+            </div>
+            <div class="tables">
+                <table class="table table-bordered dataTable table-striped table-hover dataTables-example" id="tableview">
+                    <thead>
+                    <tr>
+                        <th width="5%">序号</th>
+                        <th width="25%">分组名称</th>
+                        <th width="25%">创建时间</th>
+                        <th width="25%">修改时间</th>
+                        <th width="20%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="lists" item="item">
+                        <tr>
+                            <td>{$item.id}</td>
+                            <td>{$item.name}</td>
+                            <td>{$item.create_time}</td>
+                            <td>{$item.update_time}</td>
+                            <td><a href="{:U('Role/edit',array('id'=>$item['id']))}">编辑</a><a href="javascript:void(0);" class="del">删除</a></td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<include file="Public/footer"/>
+<script>
+    $(document).ready(function () {
+        $('.dataTables-example').dataTable({
+            "bPaginate": true, //翻页功能
+            "bLengthChange": true, //改变每页显示数据数量
+            "bFilter": true, //过滤功能
+            "bSort": true, //排序功能
+            "bInfo": true,//页脚信息
+            "bAutoWidth": true,
+        });
+        $("table:eq(0) th").removeClass("sorting_asc");
+    });
+</script>
+</body>
+</html>

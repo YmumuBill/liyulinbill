@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+    <style>
+        #body .col-sm-10{width: 400px;}
+         ul{list-style: none;}
+        .quxian{list-style: none;padding: 0;}
+        .quxian li{min-height: 30px;line-height: 30px;}
+        .quxian li label{margin: 0;}
+        .quxian li label input{width: 16px;height: 16px;float: left; margin-top:7px;margin-right: 5px;;-webkit-appearance: none; outline: none !important;border-radius: 10px;  box-sizing: border-box;  -moz-box-sizing: border-box;border: 1px solid #b3b3b3;}
+        .quxian li label input:checked{ background: url("/public/admin/image/radio_checked.png") no-repeat;  background-size: 16px 16px;  border: none;outline: none;}
+        .second{padding-left: 30px;}
+        .third{padding-left: 30px;}
+        .third:after{display: block;content: "";clear: both;}
+        .third li{float: left;width: 50%;}
+    </style>
+</head>
+<body>
+<include file="Public/header" />
+<include file="Public/left" />
+<div id="body">
+    <div class="row wrapper mm-head-nav">
+        <div class="col-lg-10">
+            <h2>管理员分组设置</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{:U('index/index')}">主页</a>
+                </li>
+                <li>
+                    <a>权限管理</a>
+                </li>
+                <li>
+                    <strong>权限分配</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="content animated fadeInRight">
+        <div class="ui-panel bordered">
+            <h5 style="line-height: 40px;padding-left: 10px;margin: 0;height: 40px;border-bottom: 1px solid #e7eaec;">管理员分组详情</h5>
+            <div style="padding: 5px 10px;">
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <input type="hidden" id="id" value="0">
+                    <label class="col-sm-2 control-label">组别名称</label>
+                    <div class="col-sm-10">
+                        <input type="hidden" id="cate_id" value="0">
+                        <input type="text" class="form-control" name="name" id="name" value="">
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+
+                <div class="form-group" style="display: table;width: 100%;">
+                    <label class="col-sm-2 control-label">权限分配</label>
+                    <div class="col-sm-10">
+                        <ul class="quxian">
+                            <foreach name="lists" item="item1" key="key1">
+                                <li class="first">
+                                    <label><input type="checkbox" class="first">{$item1.name}</label>
+                                    <ul class="second">
+                                        <foreach name="item1.group" item="item2" key="key2">
+                                            <li>
+                                                <label><input type="checkbox" class="second">{$item2.name}</label>
+                                                <ul class="third">
+                                                    <foreach name="item2.nodes" item="item3" key="key3">
+                                                        <li> <label><input type="checkbox" class="third" value="{$item3.id}">{$item3.name}</label></li>
+                                                    </foreach>
+                                                </ul>
+                                            </li>
+                                        </foreach>
+                                    </ul>
+                                </li>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <div class="col-m-4 col-sm-offset-2">
+                        <button class="btn btn-primary submit" type="button" id="save-conf">保存内容</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<include file="Public/footer"/>
+
+<script>
+    $(function(){
+        $("input[type='checkbox'].first").click(function(){
+            var obj = this.parentElement.parentElement;
+
+            if($(this).is(':checked')){
+                $(obj).find("input.second").prop("checked", "true");
+                $(obj).find("input.third").prop("checked", true);
+            }
+            else{
+                $(obj).find("input.second").prop("checked",false);
+                $(obj).find("input.third").prop("checked",false);
+            }
+        });
+
+        $("input[type='checkbox'].second").click(function(){
+            var obj = this.parentElement.parentElement;
+            if($(this).is(':checked')){
+                $(obj).find("input.third").prop("checked", true);
+                obj = obj.parentElement.parentElement;
+                if ( $(obj).find("input.second:checked").length == $(obj).find("input.second").length ){
+                    $(obj).find("input.first").prop("checked", true);
+                }
+            }
+            else{
+                $(obj).find("input.third").prop("checked", false);
+                obj = obj.parentElement.parentElement;
+                $(obj).find("input.first").prop("checked", false);
+            }
+        });
+
+        $("input[type='checkbox'].third").click(function(){
+            var obj = this.parentElement.parentElement;
+            if($(this).is(':checked')){
+                obj = obj.parentElement.parentElement;
+                if ( $(obj).find("input.third:checked").length == $(obj).find("input.third").length ){
+                    $(obj).find("input.second").prop("checked", true);
+                    obj = obj.parentElement.parentElement;
+                    if ( $(obj).find("input.second:checked").length == $(obj).find("input.second").length ){
+                        $(obj).find("input.first").prop("checked", true);
+                    }
+                }
+            }
+            else{
+                $(obj).find("input.third").prop("checked", false);
+                obj = obj.parentElement.parentElement;
+                $(obj).find("input.second").prop("checked", false)
+                obj = obj.parentElement.parentElement;
+                $(obj).find("input.first").prop("checked", false);
+            }
+        });
+
+        $("#save-conf").click(function(){
+            var id = $("#id").val();
+            var name = $.trim( $("#name").val() );
+            if(name == ""){
+                alert("请输入部门名称！");
+                return;
+            }
+            var roles = "";
+            var checks = $("input[type='checkbox'].third:checked");
+            if( checks.length == 0 ){
+                alert("请选择对应权限！");
+                return;
+            }
+            checks.each(function(index){
+                roles += index == 0 ? $(this).val() : (";" + $(this).val());
+            });
+            $.ajax({
+                url : "{:U('Role/do_add')}",
+                data: {"name":name,"roles":roles,"ajax":1},
+                type:"POST",
+                dataType: "json",
+                success: function(obj){
+                    if(obj.status==1){
+                        alert(obj.info);
+                        location.href = "{:U('Role/index')}";
+                    }
+                    else{
+                        alert(obj.info);
+                        location.reload();
+                    }
+                },
+                error:function(data){
+                    alert("程序出错了！");
+                }
+            });
+        });
+    })
+</script>
+</body>
+</html>
