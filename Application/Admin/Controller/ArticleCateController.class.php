@@ -24,7 +24,25 @@ class ArticleCateController extends BaseController{
         $this->ajaxReturn($info);
     }
 
-    public function add_cate(){
+    public function save_cate(){
+        $name = I("name");
+        $id = I("id",0);
+        $cateLogic = A("ArticleCate","Logic");
+        $res = $id==0?$cateLogic->add_cate($name):$cateLogic->edit_cate($name,$id);
+        if($res !== false){
+            $this->ajaxReturn(array("status"=>1));
+        }else{
+            $this->ajaxReturn(array("status"=>0));
+        }
+    }
 
+    public function del_cate(){
+        $id=I("id",0);
+        if($id==0){
+            $this->ajaxReturn(array("status"=>0));
+        }else{
+            $res = D("ArticleType")->delOne("id = ".$id);
+            $this->ajaxReturn(array("status"=>1));
+        }
     }
 }

@@ -13,5 +13,6 @@ seajs.config({
         "cookie": "common/cookie",
         "mobiscroll" : "common/date/mobiscroll",
         "mobiscroll-date" : "common/date/mobiscroll-date",
+        "laydate":"common/data/laydate",
     }
 });

@@ -124,55 +124,43 @@
         <div class="col-lg-10">
             <h2>文章列表</h2>
             <ol class="breadcrumb">
-            <li>
-            <a href="<?php echo U('Index/index');?>">主页</a>
-            </li>
-            <li>
-                <strong>文章管理</strong>
-            </li>
+                <li>
+                    <a href="<?php echo U('Index/index');?>">主页</a>
+                </li>
+                <li>
+                    <strong>文章管理</strong>
+                </li>
+                <li>
+                    新增
+                </li>
             </ol>
         </div>
     </div>
-    <div class="tab-nav">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="javascript:void(0);">文章管理</a></li>
-            <li><a href="<?php echo U('ArticleCate/index');?>">分类管理</a></li>
-        </ul>
+    <div class="content animated fadeInRight">
+
     </div>
-    <div class="ibox animated fadeInRight">
-        <div class="ibox-title">
-            <div>
-                <a class="btn btn-success" href="<?php echo U('Article/add');?>">+新增</a>
+</div>
+
+<div class="modal " id="myModal" tabindex="1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close mm-close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">添加/编辑文章分类</h4>
             </div>
-        </div>
-        <div class="ibox-content">
-            <table class="table table-striped table-bordered table-hover dataTables-example">
-                <thead>
-                <tr>
-                    <th width="6%">#</th>
-                    <th width="16%">标题</th>
-                    <th width="11%">创建时间</th>
-                    <th width="11%">修改时间</th>
-                    <th width="7%">发布状态</th>
-                    <th width="13%">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php if(is_array($lists)): foreach($lists as $key=>$item): ?><tr>
-                        <td><?php echo ($item["id"]); ?></td>
-                        <td><?php echo ($item["title"]); ?></td>
-                        <td><?php echo (date("Y-m-d H:i:s",$item["create_time"])); ?></td>
-                        <td><?php echo (date("Y-m-d H:i:s",$item["create_time"])); ?></td>
-                        <td><?php if($item['is_effect'] == 0): ?>未发布<?php else: ?>已发布<?php endif; ?></td>
-                        <td><a href="<?php echo U('News/edit',array('id'=>$item.id));?>">编辑</a><button onclick="change_effect(this,<?php echo ($item["id"]); ?>)" class="btn btn-outline btn-success" style="float: none;border: 1px solid #18a689;"><?php if($item['is_effect'] == 0): ?>发布<?php else: ?>取消发布<?php endif; ?></button></td>
-                    </tr><?php endforeach; endif; ?>
-
-                </tbody>
-
-            </table>
+            <div class="modal-body">
+                <div class="form-group"><label>分类名称</label> <input type="text" placeholder="请输入类型,例.新闻、公告。" class="form-control" id="input-cate"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white mm-close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-success">保存</button>
+            </div>
         </div>
     </div>
 </div>
+
 <script src="/public/admin/datatables/jquery.dataTables.js" type="application/javascript"></script>
 <script src="/public/admin/datatables/dataTables.bootstrap.js" type="application/javascript"></script>
 <script src="/public/common/popup/popup.js" type="text/javascript"></script>
@@ -185,16 +173,37 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('.dataTables-example').dataTable({
-            "bPaginate": true, //翻页功能
-            "bLengthChange": true, //改变每页显示数据数量
-            "bFilter": true, //过滤功能
-            "bSort": true, //排序功能
-            "bInfo": true,//页脚信息
-            "bAutoWidth": true,
+    $(function(){
+        //新增
+        $("#add-cate").click(function(){
+            $("#myModal").addClass("in");
+            $("#myModal").css("display","block");
         });
-    });
+        $("#myModal .btn-success").click(function(){
+            var name_input = $("#input-cate");
+            if(name_input.val()==""){
+                show_error("请输入类型,例.新闻、公告。");
+                name_input.focus();
+                return;
+            }
+            $.ajax({
+                url:"<?php echo U('ArticleCate/save_cate');?>",
+                data: {"name":name_input.val(), "ajax":1},
+                type:"POST",
+                dataType: "json",
+                success:function(msg){
+                    if(msg.status){
+                        name_input.val("");
+                        $("#myModal").fadeOut(300);
+                    }
+                },
+                error:function(msg){
+                    show_error("网络异常！请刷新重试");
+                }
+            })
+        })
+
+    })
 </script>
 </body>
 </html>

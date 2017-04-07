@@ -60,6 +60,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group"><label>分类名称</label> <input type="text" placeholder="请输入类型,例.新闻、公告。" class="form-control" id="input-cate"></div>
+                <input type="hidden" id="cate-id" value=""/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white mm-close" data-dismiss="modal">关闭</button>
@@ -72,12 +73,6 @@
 <script>
     $(function(){
         get_cate_lists();
-
-        //新增
-        $("#add-cate").click(function(){
-            $("#myModal").addClass("in");
-            $("#myModal").css("display","block");
-        });
         function get_cate_lists(){
             $('.dataTables-example').dataTable().fnClearTable();
             $('.dataTables-example').dataTable().fnDestroy();
@@ -95,11 +90,74 @@
                     {"data": "data3"},
                     {"data": "data4"},
                     {"data": "data5"}
-                ]
+                ],
+                "initComplete":function(){
+                    //编辑
+                    $("button[action='edit']").click(function(){
+                        var id = $(this).attr("data-id");
+                        $("#cate-id").val(id);
+                        var name = $(this).parents("tr").find("td:nth-of-type(2)").text();
+                        $("#input-cate").val(name);
+                        $("#add-cate").click();
+                    });
+                    //删除
+                    $("button[action='del']").click(function(){
+                        var id = $(this).attr("data-id");
+                        $.ajax({
+                            url:"{:U('ArticleCate/del_cate')}",
+                            data: {"id":id, "ajax":1},
+                            type:"POST",
+                            dataType: "json",
+                            success:function(msg){
+                                if(msg.status){
+                                    get_cate_lists();
+                                }
+                            },
+                            error:function(msg){
+                                show_error("网络异常！请刷新重试");
+                            }
+                        })
+                    });
+                }
             });
             $("table:eq(0) th").removeClass("sorting_asc");
+
+
         }
+        //新增
+        $("#add-cate").click(function(){
+            $("#myModal").addClass("in");
+            $("#myModal").css("display","block");
+        });
+
+
+        $("#myModal .btn-success").click(function(){
+            var name_input = $("#input-cate");
+            var id = $("#cate-id").val();
+            if(name_input.val()==""){
+                show_error("请输入类型,例.新闻、公告。");
+                name_input.focus();
+                return;
+            }
+            $.ajax({
+                url:"{:U('ArticleCate/save_cate')}",
+                data: {"name":name_input.val(),"id":id, "ajax":1},
+                type:"POST",
+                dataType: "json",
+                success:function(msg){
+                    if(msg.status){
+                        name_input.val("");
+                        $("#myModal").fadeOut(300);
+                        get_cate_lists();
+                    }
+                },
+                error:function(msg){
+                    show_error("网络异常！请刷新重试");
+                }
+            })
+        })
     })
+
 </script>
 </body>
 </html>

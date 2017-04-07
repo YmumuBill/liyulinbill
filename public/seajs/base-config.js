@@ -18,8 +18,8 @@ define(function(require, exports, module){
     	},
     	//自定义弹窗
     	popup : {
-    		cssPath : "/public/common/",
-    		imgPath : "/public/common/",
+    		cssPath : "/public/common/popup/",
+    		imgPath : "/public/common/popup/",
     	},
     	//日期插件
     	date : {
