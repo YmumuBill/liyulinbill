@@ -26,7 +26,7 @@
                 <a href="javascript:void(0);"><i class="icon-user"></i> <?php echo ($adminInfo["name"]); ?></a>
             </li>
             <li>
-                <a href="<?php echo U('Admin/do_logout');?>">
+                <a href="<?php echo U('Admin/logout');?>">
                     <i class="icon-signout"></i> 退出
                 </a>
             </li>

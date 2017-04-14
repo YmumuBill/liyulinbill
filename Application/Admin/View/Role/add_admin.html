@@ -51,7 +51,7 @@
                     <div class="col-sm-10">
                         <select name="role-select" id="role_id" style="height: 35px;width: 370px;">
                             <foreach name="lists" item="item" key="key">
-                                <option value="{$item.id}">{$item.name}</option>
+                                <option value="{$item.id}">{$item.title}</option>
                             </foreach>
                         </select>
                     </div>
@@ -96,17 +96,17 @@
 
             $.ajax({
                 url : "{:U('Role/save_admin')}",
-                data: { "adm_name" : adm_name , "adm_password" : adm_password , "name" : name ,
+                data: { "adm_name" : adm_name , "adm_pwd" : adm_password , "name" : name ,
                     "role_id": role_id , "ajax":1},
                 type:"POST",
                 dataType: "json",
                 success: function(obj){
-                    if(obj.status){
-                        alert(obj.info);
+                    if(obj.statusCode==200){
+                        show_error(obj.message);
                         location.href = "{:U('Role/admins')}";
                     }
                     else{
-                        alert(obj.info);location.reload();
+                        show_error(obj.message);
                     }
                 },
                 error:function(data){

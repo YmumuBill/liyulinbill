@@ -1,0 +1,21 @@
+[ 2017-04-14T15:00:28+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=save_conf
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '' for key 'name'
+
+[ 2017-04-14T15:00:40+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=save_conf
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '' for key 'name'
+
+[ 2017-04-14T16:10:27+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=add
+ERR: 非法操作:add
+
+[ 2017-04-14T16:11:00+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=add
+ERR: 非法操作:add
+
+[ 2017-04-14T16:11:14+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=add
+ERR: 非法操作:add
+
+[ 2017-04-14T17:02:17+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=add
+ERR: 非法操作:add
+
+[ 2017-04-14T17:02:36+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=add_rule
+ERR: 非法操作:add_rule
+

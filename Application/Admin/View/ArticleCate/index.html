@@ -145,10 +145,12 @@
                 type:"POST",
                 dataType: "json",
                 success:function(msg){
-                    if(msg.status){
+                    if(msg.statusCode==200){
                         name_input.val("");
                         $("#myModal").fadeOut(300);
                         get_cate_lists();
+                    }else{
+                        show_error(msg.message);
                     }
                 },
                 error:function(msg){

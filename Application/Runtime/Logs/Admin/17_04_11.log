@@ -1,0 +1,24 @@
+[ 2017-04-11T19:01:44+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Login&a=login
+ERR: 无法加载控制器:Login
+
+[ 2017-04-11T19:03:48+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Login&a=login
+ERR: 无法加载控制器:Login
+
+[ 2017-04-11T19:04:08+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Login&a=login
+ERR: 无法加载控制器:Login
+
+[ 2017-04-11T19:04:56+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=verify?t=0.7794958212625587
+ERR: 非法操作:verify?t=0.7794958212625587
+
+[ 2017-04-11T19:04:57+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=verify?t=0.528931263059788
+ERR: 非法操作:verify?t=0.528931263059788
+
+[ 2017-04-11T19:15:17+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=login
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'user_id' cannot be null
+
+[ 2017-04-11T19:15:19+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=login
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'user_id' cannot be null
+
+[ 2017-04-11T19:15:45+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=login
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'user_id' cannot be null
+
