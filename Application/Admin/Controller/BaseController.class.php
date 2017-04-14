@@ -6,14 +6,17 @@
  * Time: 16:00
  */
 namespace Admin\Controller;
+use Think\Auth;
 use Think\Controller;
 class BaseController extends Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->checkAuthV2();
         $this->checkAuth();
-    }
 
+    }
+    //权限验证与侧边栏获取
     private function checkAuth(){
         //管理员信息
         $adm_session = session("adminInfo");
@@ -53,6 +56,7 @@ class BaseController extends Controller {
                     "show"=>1 ,
                     "m"=>"Role" ,
                     "group"=>array(
+                        array("name"=>"权限设置","m"=>"Role","a"=>"conf","show"=>1,),
                         array("name"=>"管理员分组","m"=>"Role","a"=>"index","show" => 1 ,),
                         array("name"=>"管理员列表","m"=>"Role","a"=>"admins","show" => 1 ,),
                     ),
@@ -199,5 +203,65 @@ class BaseController extends Controller {
             }
         }
         $this->assign("menu",$menu);
+    }
+
+    private function checkAuthV2(){
+        $roleId = is_login();
+        //判断登录
+        if (!$roleId) {
+            $this->redirect('Admin/login');
+        }
+        $web_info = session("webInfo");
+        //判断网站信息
+        if($web_info == null&&$roleId!=627520){
+            $condition = "tenant_id = ".$roleId." and url = ".$_SERVER['SERVER_NAME']." and is_delete = 0 and is_effect = 1";
+            $web_info = M("web")->where($condition)->find();
+            session("webInfo",$web_info);
+        }
+        //判断用户权限
+        if($roleId!=627520){
+            $ajax = intval($_REQUEST['ajax']);
+            //异步请求的类型是2
+            $check_type = $ajax==1?2:1;
+            if(!check_auth(CONTROLLER_NAME.'/'.ACTION_NAME,$roleId,$check_type)){
+                //没有权限
+                if ($ajax == 1) {
+                    echo show(300,'没有权限访问');
+                    die;
+                } else {
+                    $this->error("没有权限访问",U('Index/index'),$ajax);
+                }
+            }
+        }
+    }
+
+    /* 公共状态修改 */
+    public function dostatus(){
+        $id = I('get.id', 0, 'intval');
+        $status = I('get.status', 0, 'intval');
+        $new_status = $status == 0 ? 1 : 0;
+        $result = $this->model->where('id = '.$id)->save(array('status' => $new_status));
+
+        if (!$result) return show(300, '操作失败');
+        return show(200, '操作成功');
+    }
+
+    /* 公共删除方法 */
+    public function del(){
+        $id = I('get.id', 0, 'intval');
+        if ($id == 0) return show(300, '参数类型错误');
+        $result = $this->model->delete($id);
+        if (!$result) return show(300, '删除失败');
+        return show(200, '删除成功');
+    }
+
+    /* 公共编辑方法 */
+    public function edit(){
+        $id = I('get.id', 0, 'intval');
+        if ($id == 0) return show(300, '参数类型错误');
+        $info = $this->model->where('id = '.$id)->find();
+        if (empty($info)) return show(300, '获取数据失败');
+        $this->assign('info', $info);
+        $this->display();
     }
 }

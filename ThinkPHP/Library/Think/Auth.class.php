@@ -75,7 +75,7 @@ class Auth{
         'AUTH_GROUP'        => 'auth_group',        // 用户组数据表名
         'AUTH_GROUP_ACCESS' => 'auth_group_access', // 用户-用户组关系表
         'AUTH_RULE'         => 'auth_rule',         // 权限规则表
-        'AUTH_USER'         => 'auth_admin'             // 用户信息表
+        'AUTH_USER'         => 'admin'             // 用户信息表
     );
 
     public function __construct() {
@@ -123,7 +123,8 @@ class Auth{
                 if ( in_array($auth,$name) && $intersect==$param ) {  //如果节点相符且url参数满足
                     $list[] = $auth ;
                 }
-            }else if (in_array($auth , $name)){
+            }
+            else if (in_array($auth , $name)){
                 $list[] = $auth ;
             }
         }
@@ -223,7 +224,7 @@ class Auth{
     protected function getUserInfo($uid) {
         static $userinfo=array();
         if(!isset($userinfo[$uid])){
-             $userinfo[$uid]=M()->where(array('uid'=>$uid))->table($this->_config['AUTH_USER'])->find();
+             $userinfo[$uid]=M()->where(array('role_id'=>$uid))->table($this->_config['AUTH_USER'])->find();
         }
         return $userinfo[$uid];
     }

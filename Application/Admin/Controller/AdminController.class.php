@@ -3,68 +3,33 @@ namespace Admin\Controller;
 use Think\Controller;
 class AdminController extends Controller {
     public function login(){
-        $adm_session = session("adminInfo");
-        if( $adm_session != null ){
-            $this->redirect("Index/index");
-        }
-        $this->display();
-    }
+        if(IS_POST){
+            $username = I('post.adm_name', '', 'trim');
+            $password = I('post.adm_pwd', '', 'trim');
+            $captcha  = I('post.yzm', '', 'trim');
+            if (!$username || !$password) return show(300, '用户名或密码不能为空！');
 
-    public function do_login(){
-        $adm_name = trim( I ( 'username'));
-        $adm_password = trim( I('pwd') );
-        $ajax = intval(I('ajax'));  //是否ajax提交
-
-        if($adm_name == '') {
-            echo json_encode(array("status"=>false , "info"=>"管理员帐号不能为空！"));
-            exit;
+            $verify = new \Think\Verify();
+            if($verify->check($captcha, 1))return show(300, '验证码错误！');
+            $result = D('Admin')->login($username, $password);
+            //记录行为
+            $msg = '登录成功';
+            save_log( "登录" , $msg );
+            return show(200, '登录成功', false, array('url' => U('Index/index')));
         }
-        if($adm_password == '') {
-            echo json_encode(array("status"=>false , "info"=>"管理员密码不能为空！"));
-            exit;
-        }
-        $adm_verify = trim( I('yzm') );
-        $verify = new \Think\Verify();
-        if( !$verify->check($adm_verify ,'') ) {
-            echo json_encode(array("status"=>false , "info"=>"验证码错误！"));
-            exit;
-        }
-        $condition['adm_name'] = $adm_name;
-        $adm_data = M("Admin")->where( $condition )->find();
-        if($adm_data) {
-            if($adm_data['adm_pwd'] != md5($adm_password)) {
-                echo json_encode(array("status"=>false , "info"=>"密码错误！"));
-                exit;
+        else{
+            if (is_login()) {
+                $this->redirect('Index/index');
+            } else {
+                $this->display();
             }
-            else {
-                if($adm_data['id']!=1){
-                    //租户
-                    $web = M("web")->where("tenant_id = ".$adm_data['role_id']." and is_effect = 1")->find();
-                    if($web['url']==$_SERVER['SERVER_NAME']){
-                        session("webInfo",$web);
-                    }else{
-                        unset($adm_data);
-                        $this->error( "管理员域名错误" ,$ajax);die;
-                    }
-                }
-
-                //登录成功
-                $adm_data['adm_role_name'] = M("Role")->where(array("id"=>$adm_data['role_id']))->getField("name");
-                session("adminInfo",$adm_data);
-                save_log( "登录" , "登录成功" );
-                M("Admin")->where("id = " . $adm_data["id"] )->save(array("login_time"=>time() , "login_ip"=> get_client_ip() ));
-                $this->success("登录成功！",1);
-            }
-        }
-        else
-        {
-            echo json_encode(array("status"=>false , "info"=>$adm_name . "管理员帐号错误"));
         }
     }
 
-    public function do_logout(){
+
+    public function logout(){
         save_log("退出","退出成功");
-        unset($_SESSION['adminInfo']);
+        session(null);
         $this->redirect("Admin/login");
     }
 
@@ -113,5 +78,4 @@ class AdminController extends Controller {
         $Verify->codeSet = "0123456789";
         $Verify->entry();
     }
-
 }

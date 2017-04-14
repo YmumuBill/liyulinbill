@@ -5,16 +5,17 @@
     <title>后台管理系统</title>
     <style>
         #body .col-sm-10{width: 400px;}
-        ul{list-style: none;}
+         ul{list-style: none;}
         .quxian{list-style: none;padding: 0;}
         .quxian li{min-height: 30px;line-height: 30px;}
         .quxian li label{margin: 0;}
         .quxian li label input{width: 16px;height: 16px;float: left; margin-top:7px;margin-right: 5px;;-webkit-appearance: none; outline: none !important;border-radius: 10px;  box-sizing: border-box;  -moz-box-sizing: border-box;border: 1px solid #b3b3b3;}
         .quxian li label input:checked{ background: url("/public/admin/image/radio_checked.png") no-repeat;  background-size: 16px 16px;  border: none;outline: none;}
-        .second{padding-left: 30px;}
-        .third{padding-left: 30px;}
+        .second{padding-left: 30px;display: none;}
+        .third{padding-left: 30px;display: none;}
         .third:after{display: block;content: "";clear: both;}
         .third li{float: left;width: 50%;}
+        li>label{cursor: pointer;}
     </style>
 </head>
 <body>
@@ -151,29 +152,26 @@
     </div>
     <div class="content animated fadeInRight">
         <div class="ui-panel bordered">
-            <h5 style="line-height: 40px;padding-left: 10px;margin: 0;height: 40px;border-bottom: 1px solid #e7eaec;">编辑管理员分组</h5>
-            <div style="padding: 5px 10px;">
-                <div class="hr-line-dashed"></div>
+            <div style="padding: 5px 10px;margin-top: 20px;">
                 <div class="form-group">
+                    <input type="hidden" id="id" value="<?php echo ($groupInfo["id"]); ?>">
                     <label class="col-sm-2 control-label">组别名称</label>
                     <div class="col-sm-10">
-                        <input type="hidden" id="id" value="<?php echo ($role["id"]); ?>">
-                        <input type="text" class="form-control" name="name" id="name" value="<?php echo ($role["name"]); ?>">
+                        <input type="text" class="form-control" name="name" id="name" value="<?php echo ($groupInfo["title"]); ?>">
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
-
                 <div class="form-group" style="display: table;width: 100%;">
                     <label class="col-sm-2 control-label">权限分配</label>
                     <div class="col-sm-10">
                         <ul class="quxian">
                             <?php if(is_array($lists)): foreach($lists as $key1=>$item1): ?><li class="first">
-                                    <label><input type="checkbox" class="first" <?php if($item1['checked']): ?>checked<?php endif; ?> ><?php echo ($item1["name"]); ?></label>
+                                    <label><input type="checkbox" class="first" value="<?php echo ($item1["id"]); ?>" <?php if($item1['checked']): ?>checked<?php endif; ?> ><?php echo ($item1["title"]); ?></label>
                                     <ul class="second">
-                                        <?php if(is_array($item1["group"])): foreach($item1["group"] as $key2=>$item2): ?><li>
-                                                <label><input type="checkbox" class="second" <?php if($item2['checked']): ?>checked<?php endif; ?>><?php echo ($item2["name"]); ?></label>
+                                        <?php if(is_array($item1["_child"])): foreach($item1["_child"] as $key2=>$item2): ?><li>
+                                                <label><input type="checkbox" class="second" value="<?php echo ($item2["id"]); ?>" <?php if($item2['checked']): ?>checked<?php endif; ?>><?php echo ($item2["title"]); ?></label>
                                                 <ul class="third">
-                                                    <?php if(is_array($item2["nodes"])): foreach($item2["nodes"] as $key3=>$item3): ?><li> <label><input type="checkbox" class="third" value="<?php echo ($item3["id"]); ?>" <?php if($item3['checked']): ?>checked<?php endif; ?>><?php echo ($item3["name"]); ?></label></li><?php endforeach; endif; ?>
+                                                    <?php if(is_array($item2["_child"])): foreach($item2["_child"] as $key3=>$item3): ?><li> <label><input type="checkbox" class="third" value="<?php echo ($item3["id"]); ?>" <?php if($item3['checked']): ?>checked<?php endif; ?>><?php echo ($item3["title"]); ?></label></li><?php endforeach; endif; ?>
                                                 </ul>
                                             </li><?php endforeach; endif; ?>
                                     </ul>
@@ -181,11 +179,11 @@
                         </ul>
                     </div>
                 </div>
-                <div class="hr-line-dashed"></div>
 
+                <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <div class="col-m-4 col-sm-offset-2">
-                        <button class="btn btn-primary submit" type="button" id="save-conf">保存内容</button>
+                        <button class="btn btn-success submit" type="button" id="save-conf">保存内容</button>
                     </div>
                 </div>
             </div>
@@ -207,85 +205,73 @@
 
 <script>
     $(function(){
-        $("input[type='checkbox'].first").click(function(){
-            var obj = this.parentElement.parentElement;
+        $("input[type='checkbox'].first").each(function(){
+            var li = $(this).parents("li");
+            if($(this).is(":checked")){
+                $(li).find(".second").css("display","block");
+                $(li).find(".third").css("display","block");
+            }
+        })
 
-            if($(this).is(':checked')){
-                $(obj).find("input.second").prop("checked", "true");
-                $(obj).find("input.third").prop("checked", true);
+        $("input[type='checkbox'].first").click(function(){
+            var li = $(this).parents("li");
+            if($(this).is(":checked")){
+                $(li).find(".second").slideDown(200);
+                $(li).find(".third").slideDown(200);
+                $(li).find("input.second").prop("checked", "true");
+                $(li).find("input.third").prop("checked", true);
             }
             else{
-                $(obj).find("input.second").prop("checked",false);
-                $(obj).find("input.third").prop("checked",false);
+                $(li).find(".second").slideUp(200);
+                $(li).find(".third").slideUp(200);
+                $(li).find("input.second").prop("checked",false);
+                $(li).find("input.third").prop("checked",false);
             }
         });
 
         $("input[type='checkbox'].second").click(function(){
-            var obj = this.parentElement.parentElement;
-            if($(this).is(':checked')){
-                $(obj).find("input.third").prop("checked", true);
-                obj = obj.parentElement.parentElement;
-                if ( $(obj).find("input.second:checked").length == $(obj).find("input.second").length ){
-                    $(obj).find("input.first").prop("checked", true);
-                }
-            }
-            else{
-                $(obj).find("input.third").prop("checked", false);
-                obj = obj.parentElement.parentElement;
-                $(obj).find("input.first").prop("checked", false);
-            }
-        });
-
-        $("input[type='checkbox'].third").click(function(){
-            var obj = this.parentElement.parentElement;
-            if($(this).is(':checked')){
-                obj = obj.parentElement.parentElement;
-                if ( $(obj).find("input.third:checked").length == $(obj).find("input.third").length ){
-                    $(obj).find("input.second").prop("checked", true);
-                    obj = obj.parentElement.parentElement;
-                    if ( $(obj).find("input.second:checked").length == $(obj).find("input.second").length ){
-                        $(obj).find("input.first").prop("checked", true);
-                    }
-                }
-            }
-            else{
-                $(obj).find("input.third").prop("checked", false);
-                obj = obj.parentElement.parentElement;
-                $(obj).find("input.second").prop("checked", false)
-                obj = obj.parentElement.parentElement;
-                $(obj).find("input.first").prop("checked", false);
+            var li = this.parentElement.parentElement;
+            if($(this).is(":checked")){
+                $(li).find(".third").slideDown(200);
+                $(li).find(".third").css("display","block");
+                $(li).find("input.third").prop("checked", true);
+            }else{
+                $(li).find(".third").slideUp(200);
+                $(li).find("input.third").prop("checked",false);
             }
         });
 
         $("#save-conf").click(function(){
             var id = $("#id").val();
+            if(isNaN(id)||id==""){
+                id = 0;
+            }
             var name = $.trim( $("#name").val() );
             if(name == ""){
-                alert("请输入部门名称！");
+                show_error("请输入组别名称！");
                 return;
             }
             var roles = "";
-            var checks = $("input[type='checkbox'].third:checked");
+            var checks = $("input[type='checkbox']:checked");
             if( checks.length == 0 ){
-                alert("请选择对应权限！");
+                show_error("还是给点权限吧");
                 return;
             }
             checks.each(function(index){
-                roles += index == 0 ? $(this).val() : (";" + $(this).val());
+                roles += index == 0 ? $(this).val() : ("," + $(this).val());
             });
             $.ajax({
-                url : "<?php echo U('Role/do_edit');?>",
-                data: {"name":name,"roles":roles,"ajax":1 , "id":id },
+                url : "<?php echo U('Role/save_rule');?>",
+                data: {"title":name,"rules":roles,"ajax":1,"id":id},
                 type:"POST",
                 dataType: "json",
                 success: function(obj){
-                    if(obj.status==1){
-                        alert(obj.info);
+                    if(obj.statusCode==200){
+                        show_error(obj.message);
                         location.href = "<?php echo U('Role/index');?>";
                     }
                     else{
-                        alert(obj.info);
-                        location.reload();
+                        show_error(obj.message);
                     }
                 },
                 error:function(data){

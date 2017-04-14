@@ -18,17 +18,18 @@
         <span >欢迎使用</span>
     </div>
     <div rel="form">
-        <input type="text" placeholder="填写用户名" id="username" />
-        <input type="password" placeholder="填写密码" id="pwd"/>
-        <div rel="auth_code">
-            <input id="yzm" type="text" placeholder="验证码" value="">
-            <img id="verify" src="/m.php?m=Admin&c=Admin&a=verify"  >
-        </div>
-        <div rel="bottom">
-            <input type="button" name="submit_form" class="btn_do_login" id="btn_do_login" value="登录"/>
-        </div>
+        <form  id="login_form" method="post">
+            <input type="text" placeholder="填写用户名" id="username" />
+            <input type="password" placeholder="填写密码" id="pwd"/>
+            <div rel="auth_code">
+                <input id="yzm" type="text" placeholder="验证码" value="">
+                <img id="verify" src="/m.php?m=Admin&c=Admin&a=verify"  >
+            </div>
+            <div rel="bottom">
+                <input type="submit" name="submit_form" class="btn_do_login" id="btn_do_login" value="登录"/>
+            </div>
+        </form>
     </div>
-
 </div>
 </body>
 <script type="text/javascript" src="__COMMON__/jquery/jquery-1.8.2.min.js"></script>
@@ -36,50 +37,27 @@
 <script>
     $(function(){
         $("#verify").click(function(){
-            $(this).attr("src","{:U('Admin/verify')}");
+            $(this).attr("src", "{:U('Admin/verify')}");
         });
-        $("#btn_do_login").click(function(){
-            var username = $("#username").val();
-            var password = $("#pwd").val();
-            var yzm = $("#yzm").val();
-            if(username==""){
-                show_error("用户名不能为空!");
-                $("#username").focus();
-                return;
-            }
-            if(password==""){
-                show_error("密码不能为空!");
-                $("#pwd").focus();
-                return;
-            }
-            if(yzm==""){
-                show_error("验证码不能为空!");
-                $("#yzm").focus();
-                return;
-            }
 
-            $.ajax({
-                url: "{:U('Admin/do_login')}",
-                dataType: "json",
-                data:{"username":username,"pwd":password,"yzm":yzm},
-                type: "POST",
-                success: function(obj){
-                    if(obj.status==1)
-                    {
-                        location.reload();
-                    }
-                    else {
-                        show_error(obj.info);
-                        $("#verify").attr("src","{:U('Admin/verify')}");
-                    }
-                },
-                error:function()
-                {
-                    $("#verify").attr("src","{:U('Admin/verify')}");
-                    show_error("异常，请刷新重试！");
+        $("#login_form").submit(function(){
+            var data = {
+                adm_name: $('#username').val(),
+                adm_pwd: $('#pwd').val(),
+                yzm: $('#yzm').val()
+            };
+            $.post("{:U('Admin/login')}", data, function(r) {
+                if (r.statusCode == 300) {
+                    show_error(r.message);
+                    $("#verify").attr("src", "{:U('Admin/verify')}");
+                } else {
+                    console.log(r);
+                    window.location.href = r.url;
                 }
-            });
-        })
+            },'json');
+
+            return false;
+        });
     })
 </script>
 </html>
