@@ -1,0 +1,12 @@
+[ 2017-04-12T16:37:36+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=do_logout
+ERR: 非法操作:do_logout
+
+[ 2017-04-12T16:40:26+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Web&a=setting
+ERR: 非法操作:setting
+
+[ 2017-04-12T18:52:35+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=login
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'user_group' cannot be null
+
+[ 2017-04-12T18:53:17+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=logout
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'user_group' cannot be null
+

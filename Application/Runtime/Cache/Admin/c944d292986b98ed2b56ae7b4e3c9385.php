@@ -3,8 +3,6 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>后台管理系统</title>
-    <link rel="stylesheet" href="/public/admin/css/common.css">
-    <script src="/public/common/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
     <style>
         #body .col-sm-10{width: 400px;}
     </style>
@@ -12,11 +10,16 @@
 <body>
 <link rel="stylesheet" href="/public/common/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/public/common/bootstrap/css/font-awesome.min.css">
-<link rel="stylesheet" href="/public/admin/css/header.css">
+<link rel="stylesheet" href="/public/common/popup/css/popup.css">
+<link rel="stylesheet" href="/public/admin/css/style.css">
+<link rel="stylesheet" href="/public/admin/css/animate.css">
+<link rel="stylesheet" href="/public/admin/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="/public/admin/css/common.css">
+<script src="/public/common/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
 <header>
-    <nav class="header navbar navbar-static-top">
+    <nav class="header navbar navbar-static-top ">
         <div class="navbar-header">
-            <a href="javascript:void(0);" class=" btn btn-primary mm-nav-toggle show">
+            <a href="javascript:void(0);" class=" btn btn-success mm-nav-toggle show">
                 <i class="icon-align-justify"></i>
             </a>
         </div>
@@ -26,7 +29,7 @@
                 <a href="javascript:void(0);"><i class="icon-user"></i> <?php echo ($adminInfo["name"]); ?></a>
             </li>
             <li>
-                <a href="<?php echo U('Admin/do_logout');?>">
+                <a href="<?php echo U('Admin/logout');?>">
                     <i class="icon-signout"></i> 退出
                 </a>
             </li>
@@ -35,6 +38,7 @@
 </header>
 <script>
     $(function(){
+        adjust();
         $("header .mm-nav-toggle").click(function(){
             if($(this).hasClass("show")){
                 $(this).removeClass("show");
@@ -45,7 +49,8 @@
                 $("#body").animate({
                     paddingLeft:"0px",
                 },400);
-            }else {
+            }
+            else {
                 $(this).addClass("show");
                 $("#left").animate({
                     left:"0px",
@@ -56,9 +61,36 @@
                 },400);
             }
         })
+
+        window.onresize = function(){
+            adjust();
+        }
+
+        function adjust(){
+            var w  = document.body.clientWidth;
+            if(w<=800){
+                $("header .mm-nav-toggle").removeClass("show");
+                $("#left").animate({
+                    left:"-220px",
+                    opacity:0,
+                },"slow");
+                $("#body").animate({
+                    paddingLeft:"0px",
+                },400);
+            }
+            else {
+                $("header .mm-nav-toggle").addClass("show");
+                $("#left").animate({
+                    left:"0px",
+                    opacity:1,
+                },"slow");
+                $("#body").animate({
+                    paddingLeft:"220px",
+                },400);
+            }
+        }
     })
 </script>
-<link rel="stylesheet" href="/public/admin/css/left.css">
 <div id="left">
     <nav class="navbar-default navbar-static-side">
         <ul class="nav">
@@ -78,12 +110,14 @@
         $("#left .mm-left-toggle-ul").click(function(){
             var par = $(this).parents("li");
             if( $(par).hasClass("on") ){
+                $(par).find("ul").slideUp(300);
                 $(par).removeClass("on");
-                $(par).find("ul").slideUp();
+
             }
             else{
+                $(par).find("ul").slideDown(300);
                 $(par).addClass("on");
-                $(par).find("ul").slideDown();
+
             }
         });
     })
@@ -105,7 +139,7 @@
             </ol>
         </div>
     </div>
-    <div class="content">
+    <div class="content animated fadeInRight">
         <div class="ui-panel bordered">
             <h5 style="line-height: 40px;padding-left: 10px;margin: 0;height: 40px;border-bottom: 1px solid #e7eaec;">管理员详情</h5>
             <div style="padding: 5px 10px;">
@@ -128,7 +162,7 @@
                     <label class="col-sm-2 control-label">管理员分组</label>
                     <div class="col-sm-10">
                         <select name="role-select" id="role_id" style="height: 35px;width: 370px;">
-                            <?php if(is_array($lists)): foreach($lists as $key=>$item): ?><option value="<?php echo ($item["id"]); ?>"><?php echo ($item["name"]); ?></option><?php endforeach; endif; ?>
+                            <?php if(is_array($lists)): foreach($lists as $key=>$item): ?><option value="<?php echo ($item["id"]); ?>"><?php echo ($item["title"]); ?></option><?php endforeach; endif; ?>
                         </select>
                     </div>
                 </div>
@@ -147,6 +181,17 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<script src="/public/admin/datatables/jquery.dataTables.js" type="application/javascript"></script>
+<script src="/public/admin/datatables/dataTables.bootstrap.js" type="application/javascript"></script>
+<script src="/public/common/popup/popup.js" type="text/javascript"></script>
+<div class="footer" style="position: absolute;bottom: 0px;width: auto;min-width: 300px;right: 30px;z-index: 1;">
+    <div class="pull-right">
+        By：<a href="http://www.liyulinbill.com/" target="_blank">李渝林</a>
+    </div>
+    <div>
+        <strong>Copyright</strong> liyulinbill © 2017
     </div>
 </div>
 <script>
@@ -171,17 +216,17 @@
 
             $.ajax({
                 url : "<?php echo U('Role/save_admin');?>",
-                data: { "adm_name" : adm_name , "adm_password" : adm_password , "name" : name ,
+                data: { "adm_name" : adm_name , "adm_pwd" : adm_password , "name" : name ,
                     "role_id": role_id , "ajax":1},
                 type:"POST",
                 dataType: "json",
                 success: function(obj){
-                    if(obj.status){
-                        alert(obj.info);
+                    if(obj.statusCode==200){
+                        show_error(obj.message);
                         location.href = "<?php echo U('Role/admins');?>";
                     }
                     else{
-                        alert(obj.info);location.reload();
+                        show_error(obj.message);
                     }
                 },
                 error:function(data){

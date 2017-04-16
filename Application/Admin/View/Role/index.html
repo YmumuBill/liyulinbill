@@ -27,7 +27,7 @@
     <div class="content animated fadeInRight">
         <div class="ui-panel bordered">
             <div style="height: 60px;border-bottom: 1px solid #e7eaec;margin-bottom: 15px;padding: 15px">
-                <button onclick="location.href='/m.php?m=Admin&c=Role&a=add'" type="button" class="btn btn-w-m btn-success"
+                <button onclick="location.href='/m.php?m=Admin&c=Role&a=group_role'" type="button" class="btn btn-w-m btn-success"
                         style="float: left;height: 30px;box-sizing: border-box;-moz-box-sizing: border-box;padding: 0;min-width: 100px;margin-right: 20px;">+新增</button>
             </div>
             <div class="tables">
@@ -45,10 +45,10 @@
                     <foreach name="lists" item="item">
                         <tr>
                             <td>{$item.id}</td>
-                            <td>{$item.name}</td>
-                            <td>{$item.create_time}</td>
-                            <td>{$item.update_time}</td>
-                            <td><a href="{:U('Role/edit',array('id'=>$item['id']))}">编辑</a><a href="javascript:void(0);" class="del">删除</a></td>
+                            <td>{$item.title}</td>
+                            <td>{$item.create_time|date='Y-m-d H:i',###}</td>
+                            <td>{$item.update_time|date='Y-m-d H:i',###}</td>
+                            <td><a href="{:U('Role/group_role',array('id'=>$item['id']))}">编辑</a><a href="javascript:void(0);" class="del">删除</a></td>
                         </tr>
                     </foreach>
                     </tbody>

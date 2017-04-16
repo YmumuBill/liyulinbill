@@ -26,7 +26,7 @@
                 <a href="javascript:void(0);"><i class="icon-user"></i> <?php echo ($adminInfo["name"]); ?></a>
             </li>
             <li>
-                <a href="<?php echo U('Admin/logout');?>">
+                <a href="<?php echo U('Admin/do_logout');?>">
                     <i class="icon-signout"></i> 退出
                 </a>
             </li>
@@ -120,54 +120,47 @@
     })
 </script>
 <div id="body">
-    <div class="row wrapper mm-head-nav">
+    <div class="row  wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>管理员分组设置</h2>
+            <h2>文章列表</h2>
             <ol class="breadcrumb">
                 <li>
-                    <a href="<?php echo U('index/index');?>">主页</a>
+                    <a href="<?php echo U('Index/index');?>">主页</a>
                 </li>
                 <li>
-                    <a>权限管理</a>
+                    <strong>文章管理</strong>
                 </li>
                 <li>
-                    <strong>管理员分组列表</strong>
+                    新增
                 </li>
             </ol>
         </div>
     </div>
     <div class="content animated fadeInRight">
-        <div class="ui-panel bordered">
-            <div style="height: 60px;border-bottom: 1px solid #e7eaec;margin-bottom: 15px;padding: 15px">
-                <button onclick="location.href='/m.php?m=Admin&c=Role&a=group_role'" type="button" class="btn btn-w-m btn-success"
-                        style="float: left;height: 30px;box-sizing: border-box;-moz-box-sizing: border-box;padding: 0;min-width: 100px;margin-right: 20px;">+新增</button>
+
+    </div>
+</div>
+
+<div class="modal " id="myModal" tabindex="1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close mm-close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">添加/编辑文章分类</h4>
             </div>
-            <div class="tables">
-                <table class="table table-bordered dataTable table-striped table-hover dataTables-example" id="tableview">
-                    <thead>
-                    <tr>
-                        <th width="5%">序号</th>
-                        <th width="25%">分组名称</th>
-                        <th width="25%">创建时间</th>
-                        <th width="25%">修改时间</th>
-                        <th width="20%">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php if(is_array($lists)): foreach($lists as $key=>$item): ?><tr>
-                            <td><?php echo ($item["id"]); ?></td>
-                            <td><?php echo ($item["title"]); ?></td>
-                            <td><?php echo (date('Y-m-d H:i',$item["create_time"])); ?></td>
-                            <td><?php echo (date('Y-m-d H:i',$item["update_time"])); ?></td>
-                            <td><a href="<?php echo U('Role/group_role',array('id'=>$item['id']));?>">编辑</a><a href="javascript:void(0);" class="del">删除</a></td>
-                        </tr><?php endforeach; endif; ?>
-                    </tbody>
-                </table>
+            <div class="modal-body">
+                <div class="form-group"><label>分类名称</label> <input type="text" placeholder="请输入类型,例.新闻、公告。" class="form-control" id="input-cate"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white mm-close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-success">保存</button>
             </div>
         </div>
     </div>
-
 </div>
+
 <script src="/public/admin/datatables/jquery.dataTables.js" type="application/javascript"></script>
 <script src="/public/admin/datatables/dataTables.bootstrap.js" type="application/javascript"></script>
 <script src="/public/common/popup/popup.js" type="text/javascript"></script>
@@ -180,17 +173,37 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('.dataTables-example').dataTable({
-            "bPaginate": true, //翻页功能
-            "bLengthChange": true, //改变每页显示数据数量
-            "bFilter": true, //过滤功能
-            "bSort": true, //排序功能
-            "bInfo": true,//页脚信息
-            "bAutoWidth": true,
+    $(function(){
+        //新增
+        $("#add-cate").click(function(){
+            $("#myModal").addClass("in");
+            $("#myModal").css("display","block");
         });
-        $("table:eq(0) th").removeClass("sorting_asc");
-    });
+        $("#myModal .btn-success").click(function(){
+            var name_input = $("#input-cate");
+            if(name_input.val()==""){
+                show_error("请输入类型,例.新闻、公告。");
+                name_input.focus();
+                return;
+            }
+            $.ajax({
+                url:"<?php echo U('ArticleCate/save_cate');?>",
+                data: {"name":name_input.val(), "ajax":1},
+                type:"POST",
+                dataType: "json",
+                success:function(msg){
+                    if(msg.status){
+                        name_input.val("");
+                        $("#myModal").fadeOut(300);
+                    }
+                },
+                error:function(msg){
+                    show_error("网络异常！请刷新重试");
+                }
+            })
+        })
+
+    })
 </script>
 </body>
 </html>

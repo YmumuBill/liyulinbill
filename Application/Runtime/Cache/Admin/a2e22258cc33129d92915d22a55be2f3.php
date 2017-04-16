@@ -3,6 +3,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>后台管理系统</title>
+    <style>
+        .modal .modal-dialog .modal-body .control-label{height: 45px;line-height: 33px;}
+        .modal .modal-dialog .modal-body .form-group{margin: 5px 0;height: 45px;}
+    </style>
 </head>
 <body>
 <link rel="stylesheet" href="/public/common/bootstrap/css/bootstrap.min.css">
@@ -133,46 +137,82 @@
             </ol>
         </div>
     </div>
-    <div class="tab-nav">
-        <ul class="nav nav-tabs">
-            <li ><a href="<?php echo U('Article/index');?>">文章管理</a></li>
-            <li class="active" ><a href="javascript:void(0);">分类管理</a></li>
-        </ul>
-    </div>
     <div class="ibox animated fadeInRight">
-        <div class="ibox-title">
-            <div>
-                <button class="btn btn-success " id="add-cate">+新增</button>
-            </div>
-        </div>
         <div class="ibox-content">
             <table class="table table-striped table-bordered table-hover dataTables-example">
                 <thead>
                 <tr>
                     <th >#</th>
-                    <th >名字</th>
-                    <th >文章总数</th>
-                    <th >创建时间</th>
-                    <th >操作</th>
+                    <th >父级</th>
+                    <th >菜单级别</th>
+                    <th>规则</th>
+                    <th >名称</th>
+                    <th >权限级别</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
             </table>
+        </div>
+        <div class="ibox-bottom" style="padding-left: 20px;">
+            <div>
+                <button class="btn btn-success " id="add-cate">+新增</button>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="modal " id="myModal" tabindex="1" role="dialog" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content animated bounceInRight">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInDown">
             <div class="modal-header">
                 <button type="button" class="close mm-close" data-dismiss="modal">
                     <span aria-hidden="true">×</span>
                 </button>
-                <h4 class="modal-title">添加/编辑文章分类</h4>
+                <h4 class="modal-title">添加/编辑</h4>
             </div>
-            <div class="modal-body">
-                <div class="form-group"><label>分类名称</label> <input type="text" placeholder="请输入类型,例.新闻、公告。" class="form-control" id="input-cate"></div>
-                <input type="hidden" id="cate-id" value=""/>
+            <div class="modal-body" style="height: 270px;">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">父级</label>
+                    <div class="col-md-10 ">
+                        <select name="rule-pid" id="rule-pid" class="form-control">
+                            <option value="0">无</option>
+                            <?php if(is_array($mFirst)): foreach($mFirst as $key=>$item): ?><option value="<?php echo ($item["id"]); ?>"><?php echo ($item["title"]); ?></option><?php endforeach; endif; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">菜单级别</label>
+                    <div class="col-md-10">
+                        <select name="rule-menutype" id="rule-menutype" class="form-control">
+                            <option value="0">非菜单</option>
+                            <option value="1">1级菜单</option>
+                            <option value="2">2级菜单</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">规则</label>
+                    <div class="col-md-10">
+                        <input type="text" id="rule-name" placeholder="url规则，例如:Index/index" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">名称</label>
+                    <div class="col-md-10">
+                        <input type="text" id="rule-title" placeholder="名称" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">权限级别</label>
+                    <div class="col-md-10 ">
+                        <select name="rule-type" id="rule-type" class="col-md-9 form-control">
+                            <option value="0">无</option>
+                            <option value="1">url</option>
+                            <option value="2">异步请求</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" id="conf-id" value=""/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white mm-close" data-dismiss="modal">关闭</button>
@@ -194,83 +234,123 @@
 </div>
 <script>
     $(function(){
-        get_cate_lists();
-        function get_cate_lists(){
+        get_lists();
+        function get_lists(){
             $('.dataTables-example').dataTable().fnClearTable();
             $('.dataTables-example').dataTable().fnDestroy();
-            $('.dataTables-example').dataTable({
-                "ajax": "<?php echo U('ArticleCate/get_lists');?>",
+            var table = $('.dataTables-example').dataTable({
+                "ajax": "<?php echo U('Role/get_conf');?>",
                 "bPaginate": true, //翻页功能
                 "bLengthChange": true, //改变每页显示数据数量
                 "bFilter": true, //过滤功能
-                "bSort": false, //排序功能
+                "bSort": true, //排序功能
                 "bInfo": true,//页脚信息
                 "bAutoWidth": true,
+                "iDisplayLength" : 100, //默认显示的记录数
                 "columns": [
                     {"data": "data1"},
                     {"data": "data2"},
                     {"data": "data3"},
                     {"data": "data4"},
-                    {"data": "data5"}
+                    {"data": "data5"},
+                    {"data": "data6"},
+                    {"data": "data7"},
                 ],
                 "initComplete":function(){
                     //编辑
                     $("button[action='edit']").click(function(){
                         var id = $(this).attr("data-id");
-                        $("#cate-id").val(id);
-                        var name = $(this).parents("tr").find("td:nth-of-type(2)").text();
-                        $("#input-cate").val(name);
-                        $("#add-cate").click();
+                        $("#conf-id").val(id);
+
+                        var pid = $(this).parents("tr").find("td:nth-of-type(2)").text();
+                        var menutype = $(this).parents("tr").find("td:nth-of-type(3)").text();
+                        var name = $(this).parents("tr").find("td:nth-of-type(4)").text();
+                        var title = $(this).parents("tr").find("td:nth-of-type(5)").text();
+                        var typeName = $(this).parents("tr").find("td:nth-of-type(6)").text();
+                        var type = typeName=="无"?0:(typeName=="url"?1:2);
+                        $("#rule-pid option[value='"+pid+"']").attr("selected",true);
+                        $("#rule-menutype option[value='"+menutype+"']").attr("selected",true);
+                        $("#rule-type option[value='"+type+"']").attr("selected",true);
+                        $("#rule-name").val(name);
+                        $("#rule-title").val(title);
+
+                        $("#myModal").addClass("in");
+                        $("#myModal").css("display","block");
                     });
                     //删除
                     $("button[action='del']").click(function(){
                         var id = $(this).attr("data-id");
-                        $.ajax({
-                            url:"<?php echo U('ArticleCate/del_cate');?>",
-                            data: {"id":id, "ajax":1},
-                            type:"POST",
-                            dataType: "json",
-                            success:function(msg){
-                                if(msg.status){
-                                    get_cate_lists();
+                        if(confirm("你正在进行删除操作，确定？")){
+                            $.ajax({
+                                url:"<?php echo U('Role/del_conf');?>",
+                                data: {"id":id, "ajax":1},
+                                type:"POST",
+                                dataType: "json",
+                                success:function(msg){
+                                    if(msg.statusCode==200){
+                                        get_lists();
+                                    }else {
+                                        show_error(msg.message);
+                                    }
+                                },
+                                error:function(msg){
+                                    show_error("网络异常！请刷新重试");
                                 }
-                            },
-                            error:function(msg){
-                                show_error("网络异常！请刷新重试");
-                            }
-                        })
+                            })
+                        }
                     });
                 }
             });
             $("table:eq(0) th").removeClass("sorting_asc");
-
-
         }
         //新增
         $("#add-cate").click(function(){
             $("#myModal").addClass("in");
             $("#myModal").css("display","block");
+            $("#conf-id").val("");
+            $("#rule-name").val("");
+            $("#rule-title").val("");
         });
 
 
         $("#myModal .btn-success").click(function(){
-            var name_input = $("#input-cate");
-            var id = $("#cate-id").val();
-            if(name_input.val()==""){
-                show_error("请输入类型,例.新闻、公告。");
-                name_input.focus();
+            var pid = $("#rule-pid option:selected").val();
+            var menutype = $("#rule-menutype option:selected").val();
+            var type = $("#rule-type option:selected").val();
+            var name = $("#rule-name");
+            var title = $("#rule-title");
+            var id = $("#conf-id").val();
+            if(name.val()==""&&type!=0){
+                show_error("请输入url规则，例如Index/index");
+                name.focus();
+                return;
+            }
+            if(title.val()==""&&menutype!=1){
+                show_error("请输入规则名称！");
+                title.focus();
+                return;
+            }
+            if(type==2&&menutype!=0){
+                show_error("异步请求规则不能作为菜单栏");
+                return;
+            }
+            if(pid==0&&menutype!=1){
+                show_error("非一级菜单需要父级");
+                return;
+            }
+            if(pid==id&&id){
+                show_error("父级与自身不能相同");
                 return;
             }
             $.ajax({
-                url:"<?php echo U('ArticleCate/save_cate');?>",
-                data: {"name":name_input.val(),"id":id, "ajax":1},
+                url:"<?php echo U('Role/save_conf');?>",
+                data: {"id":id, "ajax":1,"pid":pid,"menutype":menutype,"type":type,"name":name.val(),"title":title.val()},
                 type:"POST",
                 dataType: "json",
                 success:function(msg){
                     if(msg.statusCode==200){
-                        name_input.val("");
                         $("#myModal").fadeOut(300);
-                        get_cate_lists();
+                        get_lists();
                     }else{
                         show_error(msg.message);
                     }

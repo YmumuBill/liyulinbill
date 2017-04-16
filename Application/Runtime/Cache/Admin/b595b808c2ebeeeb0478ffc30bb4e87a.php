@@ -7,11 +7,11 @@
 <body>
 <link rel="stylesheet" href="/public/common/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/public/common/bootstrap/css/font-awesome.min.css">
+<link rel="stylesheet" href="/public/common/popup/css/popup.css">
 <link rel="stylesheet" href="/public/admin/css/style.css">
 <link rel="stylesheet" href="/public/admin/css/animate.css">
 <link rel="stylesheet" href="/public/admin/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="/public/admin/css/common.css">
-<link rel="stylesheet" href="/public/admin/css/header.css">
 <script src="/public/common/jquery/jquery-1.8.2.min.js" type="application/javascript"></script>
 <header>
     <nav class="header navbar navbar-static-top ">
@@ -26,7 +26,7 @@
                 <a href="javascript:void(0);"><i class="icon-user"></i> <?php echo ($adminInfo["name"]); ?></a>
             </li>
             <li>
-                <a href="<?php echo U('Admin/do_logout');?>">
+                <a href="<?php echo U('Admin/logout');?>">
                     <i class="icon-signout"></i> 退出
                 </a>
             </li>
@@ -88,7 +88,6 @@
         }
     })
 </script>
-<link rel="stylesheet" href="/public/admin/css/left.css">
 <div id="left">
     <nav class="navbar-default navbar-static-side">
         <ul class="nav">
@@ -132,6 +131,7 @@
 </div>
 <script src="/public/admin/datatables/jquery.dataTables.js" type="application/javascript"></script>
 <script src="/public/admin/datatables/dataTables.bootstrap.js" type="application/javascript"></script>
+<script src="/public/common/popup/popup.js" type="text/javascript"></script>
 <div class="footer" style="position: absolute;bottom: 0px;width: auto;min-width: 300px;right: 30px;z-index: 1;">
     <div class="pull-right">
         By：<a href="http://www.liyulinbill.com/" target="_blank">李渝林</a>

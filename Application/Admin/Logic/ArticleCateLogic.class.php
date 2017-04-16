@@ -21,4 +21,20 @@ class ArticleCateLogic extends Controller
         }
         return $data;
     }
+
+    public function add_cate($name = ""){
+        if($name=="")return false;
+        $data['name'] = $name;
+        $data['create_time'] = time();
+        $res = D("ArticleType")->addInfo($data);
+        return $res;
+    }
+
+    public function edit_cate($name="",$id=""){
+        if($name==""||$id=="")return false;
+        $data['name'] = $name;
+        $data['update_time'] = time();
+        $res = D("ArticleType")->saveInfo("id = ".$id,$data);
+        return $res;
+    }
 }

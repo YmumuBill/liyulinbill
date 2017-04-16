@@ -26,7 +26,7 @@
                 <a href="javascript:void(0);"><i class="icon-user"></i> <?php echo ($adminInfo["name"]); ?></a>
             </li>
             <li>
-                <a href="<?php echo U('Admin/do_logout');?>">
+                <a href="<?php echo U('Admin/logout');?>">
                     <i class="icon-signout"></i> 退出
                 </a>
             </li>
@@ -142,7 +142,7 @@
     <div class="ibox animated fadeInRight">
         <div class="ibox-title">
             <div>
-                <button class="btn btn-success">+新增</button>
+                <a class="btn btn-success" href="<?php echo U('Article/add');?>">+新增</a>
             </div>
         </div>
         <div class="ibox-content">
