@@ -53,9 +53,9 @@
                         <select name="role-select" id="role_id" style="height: 35px;width: 370px;">
                             <foreach name="lists" item="item" key="key">
                                 <if condition="$item.selected eq 1">
-                                    <option value="{$item.id}" selected="selected">{$item.name}</option>
+                                    <option value="{$item.id}" selected="selected">{$item.title}</option>
                                     <else/>
-                                    <option value="{$item.id}">{$item.name}</option>
+                                    <option value="{$item.id}">{$item.title}</option>
                                 </if>
                             </foreach>
                         </select>
@@ -99,18 +99,17 @@
 
             $.ajax({
                 url : "{:U('Role/save_admin')}",
-                data: { "id":id,"adm_name" : adm_name , "adm_password" : adm_password , "name" : name ,
+                data: { "id":id,"adm_name" : adm_name , "adm_pwd" : adm_password , "name" : name ,
                     "role_id": role_id , "ajax":1},
                 type:"POST",
                 dataType: "json",
                 success: function(obj){
-                    if(obj.status){
-                        alert(obj.info);
+                    if(obj.statusCode==200){
+                        show_error(obj.message);
                         location.href = "{:U('Role/admins')}";
                     }
                     else{
-                        alert(obj.info);
-                        location.reload();
+                        show_error(obj.message);
                     }
                 },
                 error:function(data){

@@ -11,6 +11,7 @@ return array(
     ),
     'URL_MODEL'=>'0',
     'DEFAULT_ADMIN'=> 'admin',
+    'AUTH_KEY'  =>  'mid',
 
     'QINIU_BUCKET' => '',
     'QINIU_SECRET' => '',

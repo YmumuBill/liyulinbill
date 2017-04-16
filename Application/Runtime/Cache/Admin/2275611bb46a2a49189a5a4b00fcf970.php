@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -7,8 +7,8 @@
     <title>后台管理登录</title>
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="__COMMON__/popup/css/popup.css">
-    <link rel="stylesheet" href="__PUBLIC__/css/login.css"/>
+    <link rel="stylesheet" href="/public/common/popup/css/popup.css">
+    <link rel="stylesheet" href="/public/admin/css/login.css"/>
 </head>
 
 <body>
@@ -32,12 +32,12 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" src="__COMMON__/jquery/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="__COMMON__/popup/popup.js"></script>
+<script type="text/javascript" src="/public/common/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/public/common/popup/popup.js"></script>
 <script>
     $(function(){
         $("#verify").click(function(){
-            $(this).attr("src", "{:U('Admin/verify')}");
+            $(this).attr("src", "<?php echo U('Admin/verify');?>");
         });
 
         $("#login_form").submit(function(){
@@ -46,10 +46,10 @@
                 adm_pwd: $('#pwd').val(),
                 yzm: $('#yzm').val()
             };
-            $.post("{:U('Admin/login')}", data, function(r) {
+            $.post("<?php echo U('Admin/login');?>", data, function(r) {
                 if (r.statusCode == 300) {
                     show_error(r.message);
-                    $("#verify").attr("src", "{:U('Admin/verify')}");
+                    $("#verify").attr("src", "<?php echo U('Admin/verify');?>");
                 } else {
                     console.log(r);
                     window.location.href = r.url;
@@ -61,6 +61,3 @@
     })
 </script>
 </html>
-
-
-

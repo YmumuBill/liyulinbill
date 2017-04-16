@@ -14,4 +14,8 @@ class ArticleController extends BaseController{
         $this->assign("lists",$lists);
         $this->display();
     }
+
+    public function add(){
+        $this->display();
+    }
 }

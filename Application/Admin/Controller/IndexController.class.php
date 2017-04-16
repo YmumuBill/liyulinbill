@@ -7,4 +7,5 @@ class IndexController extends BaseController{
         $check->check_version();
         $this->display();
     }
+
 }

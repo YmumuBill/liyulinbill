@@ -2,7 +2,7 @@
 //日志
 function save_log( $type , $content ,$backups=0){
     $adm_session =session("adminInfo");
-    if($adm_session['role_id']==0) {
+    if($adm_session['role_id']==627520) {
         $adm_role = "超级管理员";
     }else {
         $adm_role = M("Role")->where("id = ".$adm_session['role_id'])->getField("name");
@@ -37,6 +37,40 @@ function save_backups($ids,$content){
     $res = M("backups")->add($log_data);
     return $res;
 }
+/**
+ * 查询用户是否登录
+ * @return int  0-未登录，大于0-登录id
+ */
+function is_login(){
+    $uid = session(C('AUTH_KEY'));
+    return $uid > 0 ? $uid : 0;
+}
+
+
+//检测Auth中允许访问的节点
+function check_auth($rule, $uid=null,$type=1){
+    //不需要检测的权限节点
+    if (in_array($rule, C('NO_CHECK_NODES'))) {
+        return true;
+    }
+    if (is_null($uid)) $uid = is_login();
+    static $Auth = null;
+    if (!$Auth) {
+        $Auth = new \Think\Auth();
+    }
+    if(!$Auth->check($rule, $uid, $type)){
+        return false;
+    }
+    return true;
+}
+
+
+// 检测输入的验证码是否正确，$code为用户输入的验证码字符串
+function check_verify($code, $id = ''){
+    $verify = new \Think\Verify();
+    return $verify->check($code, $id);
+}
+
 
 //测试函数
 function lyl_dump($content){
