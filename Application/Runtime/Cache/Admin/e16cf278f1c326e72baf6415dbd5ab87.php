@@ -3,6 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>后台管理系统</title>
+    <style>
+        input[type='file']{display: none!important;}
+    </style>
 </head>
 <body>
 <link rel="stylesheet" href="/public/common/bootstrap/css/bootstrap.min.css">
@@ -26,7 +29,7 @@
                 <a href="javascript:void(0);"><i class="icon-user"></i> <?php echo ($adminInfo["name"]); ?></a>
             </li>
             <li>
-                <a href="<?php echo U('Admin/do_logout');?>">
+                <a href="<?php echo U('Admin/logout');?>">
                     <i class="icon-signout"></i> 退出
                 </a>
             </li>
@@ -91,14 +94,14 @@
 <div id="left">
     <nav class="navbar-default navbar-static-side">
         <ul class="nav">
-            <?php if(is_array($menu)): foreach($menu as $key=>$item): if($item["show"] == 1): ?><li class="<?php echo ($item["class"]); ?>">
-                        <?php if($item['level'] == 1): ?><a href="/m.php?m=Admin&c=<?php echo ($item["m"]); ?>&a=<?php echo ($item["a"]); ?>"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["name"]); ?></a>
-                            <?php else: ?>
-                            <a href="javascript:void(0)" class="mm-left-toggle-ul"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["name"]); ?><i class="icon-angle-left"></i></a>
-                            <ul class="nav nav-second-level">
-                                <?php if(is_array($item["group"])): foreach($item["group"] as $key1=>$item1): if($item1["show"] == 1): ?><li class="<?php echo ($item1["class"]); ?>"><a href="/m.php?m=Admin&c=<?php echo ($item1["m"]); ?>&a=<?php echo ($item1["a"]); ?>"><i class="icon-angle-right"></i> <?php echo ($item1["name"]); ?></a></li><?php endif; endforeach; endif; ?>
-                            </ul><?php endif; ?>
-                    </li><?php endif; endforeach; endif; ?>
+            <?php if(is_array($menu)): foreach($menu as $key=>$item): ?><li class="<?php echo ($item["class"]); ?>">
+                    <?php if($item['level'] == 1): ?><a href="<?php echo ($item["url"]); ?>"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["title"]); ?></a>
+                        <?php else: ?>
+                        <a href="javascript:void(0)" class="mm-left-toggle-ul"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["title"]); ?><i class="icon-angle-left"></i></a>
+                        <ul class="nav nav-second-level">
+                            <?php if(is_array($item["group"])): foreach($item["group"] as $key1=>$item1): ?><li class="<?php echo ($item1["class"]); ?>"><a href="<?php echo ($item1["url"]); ?>"><i class="icon-angle-right"></i> <?php echo ($item1["title"]); ?></a></li><?php endforeach; endif; ?>
+                        </ul><?php endif; ?>
+                </li><?php endforeach; endif; ?>
         </ul>
     </nav>
 </div>
@@ -137,7 +140,82 @@
         </div>
     </div>
     <div class="content animated fadeInRight">
+        <form method="POST" class="form-horizontal info" >
+            <input type="hidden" id="article_id" value="0" name="id">
+            <div class="form-group">
+                <label class="col-md-2 control-label">名称</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control"  id="title"/>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">分类</label>
+                <div class="col-md-10">
+                    <div id="categoryList">
+                        <?php if(is_array($cate_list)): foreach($cate_list as $key=>$child): ?><label class="checkbox-inline">
+                                <input type="checkbox" name="categoryIds" value="<?php echo ($child["id"]); ?>"><?php echo ($child["name"]); ?>
+                            </label><?php endforeach; endif; ?>
+                    </div>
+                    <button class="btn btn-white" type="button" id="addCatButton">
+                        <i class="fa fa-plus"></i> 添加分类</button>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">上传缩略图</label>
+                <div class="col-md-10">
+                    <input type="hidden" id="article_image">
+                    <img src="" alt="" id="image"/>
+                    <input type="file" name="article_thumb" id="article_thumb" />
+                    <label for="article_thumb" class="btn btn-primary article-upload-label">
+                        上传
+                    </label>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">简要内容</label>
+                <div class="col-md-10">
+                    <textarea type="text" class="form-control" id="brief"></textarea>
+                </div>
+            </div>
 
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">详细内容</label>
+                <div class="col-md-10">
+                    <script id="editor" type="text/plain" style="min-width:700px;max-width:100%;height:350px;"></script>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">附件(最多10个)</label>
+                <div class="col-md-10">
+                    <div class="control">
+                        <div class="attachmentlist"></div>
+                        <button type="button" class="btn btn-white webuploader-container">
+                            <div class="other-pick">
+                                <i class="fa fa-paperclip"> 上传附件</i>
+                            </div>
+                            <div  style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; bottom: auto; right: auto;">
+                                <input type="file" id="other_file" name="file" class="uploader-invisible">
+                                <label class="other-click" style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-m-4 col-sm-offset-2">
+                    <button class="btn btn-primary submit" type="button">保存内容</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -172,10 +250,17 @@
         <strong>Copyright</strong> liyulinbill © 2017
     </div>
 </div>
+<script type="text/javascript" charset="utf-8" src="/public/common/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/public/common/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="/public/common/ueditor/lang/zh-cn/zh-cn.js"></script>
 <script>
     $(function(){
+        var ue = UE.getEditor('editor');
+        UE.getEditor('editor').ready(function(){
+            this.setContent('请编辑您的内容');
+        })
         //新增
-        $("#add-cate").click(function(){
+        $("#addCatButton").click(function(){
             $("#myModal").addClass("in");
             $("#myModal").css("display","block");
         });
