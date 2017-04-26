@@ -91,14 +91,14 @@
 <div id="left">
     <nav class="navbar-default navbar-static-side">
         <ul class="nav">
-            <?php if(is_array($menu)): foreach($menu as $key=>$item): if($item["show"] == 1): ?><li class="<?php echo ($item["class"]); ?>">
-                        <?php if($item['level'] == 1): ?><a href="/m.php?m=Admin&c=<?php echo ($item["m"]); ?>&a=<?php echo ($item["a"]); ?>"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["name"]); ?></a>
-                            <?php else: ?>
-                            <a href="javascript:void(0)" class="mm-left-toggle-ul"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["name"]); ?><i class="icon-angle-left"></i></a>
-                            <ul class="nav nav-second-level">
-                                <?php if(is_array($item["group"])): foreach($item["group"] as $key1=>$item1): if($item1["show"] == 1): ?><li class="<?php echo ($item1["class"]); ?>"><a href="/m.php?m=Admin&c=<?php echo ($item1["m"]); ?>&a=<?php echo ($item1["a"]); ?>"><i class="icon-angle-right"></i> <?php echo ($item1["name"]); ?></a></li><?php endif; endforeach; endif; ?>
-                            </ul><?php endif; ?>
-                    </li><?php endif; endforeach; endif; ?>
+            <?php if(is_array($menu)): foreach($menu as $key=>$item): ?><li class="<?php echo ($item["class"]); ?>">
+                    <?php if($item['level'] == 1): ?><a href="<?php echo ($item["url"]); ?>"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["title"]); ?></a>
+                        <?php else: ?>
+                        <a href="javascript:void(0)" class="mm-left-toggle-ul"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["title"]); ?><i class="icon-angle-left"></i></a>
+                        <ul class="nav nav-second-level">
+                            <?php if(is_array($item["group"])): foreach($item["group"] as $key1=>$item1): ?><li class="<?php echo ($item1["class"]); ?>"><a href="<?php echo ($item1["url"]); ?>"><i class="icon-angle-right"></i> <?php echo ($item1["title"]); ?></a></li><?php endforeach; endif; ?>
+                        </ul><?php endif; ?>
+                </li><?php endforeach; endif; ?>
         </ul>
     </nav>
 </div>
@@ -162,9 +162,16 @@
                         <td><?php echo ($item["id"]); ?></td>
                         <td><?php echo ($item["title"]); ?></td>
                         <td><?php echo (date("Y-m-d H:i:s",$item["create_time"])); ?></td>
-                        <td><?php echo (date("Y-m-d H:i:s",$item["create_time"])); ?></td>
+                        <td><?php echo (date("Y-m-d H:i:s",$item["update_time"])); ?></td>
                         <td><?php if($item['is_effect'] == 0): ?>未发布<?php else: ?>已发布<?php endif; ?></td>
-                        <td><a href="<?php echo U('News/edit',array('id'=>$item.id));?>">编辑</a><button onclick="change_effect(this,<?php echo ($item["id"]); ?>)" class="btn btn-outline btn-success" style="float: none;border: 1px solid #18a689;"><?php if($item['is_effect'] == 0): ?>发布<?php else: ?>取消发布<?php endif; ?></button></td>
+                        <td>
+                            <a href="<?php echo U('Article/add',array('id'=>$item['id']));?>" class="btn btn-white" ><i class="icon-edit"></i>编辑</a>
+
+                            <button class="btn btn-outline btn-success" action="effect" data-id="<?php echo ($item["id"]); ?>">
+                            <?php if($item['is_effect'] == 0): ?><i class="icon-eye-open"></i>发布<?php else: ?><i class="icon-eye-close"></i>取消发布<?php endif; ?>
+                            </button>
+                            <button class="btn btn-danger" action="del" data-id="<?php echo ($item["id"]); ?>"><i class="icon-trash"></i>删除</button>
+                        </td>
                     </tr><?php endforeach; endif; ?>
 
                 </tbody>

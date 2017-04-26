@@ -77,7 +77,14 @@
             $('.dataTables-example').dataTable().fnClearTable();
             $('.dataTables-example').dataTable().fnDestroy();
             $('.dataTables-example').dataTable({
-                "ajax": "{:U('ArticleCate/get_lists')}",
+                "serverSide": true,
+                "ajax": {
+                    url:"{:U('ArticleCate/get_lists')}",
+                    type:"POST",
+                    data:function(d){
+                        d.ajax = 1;
+                    }
+                },
                 "bPaginate": true, //翻页功能
                 "bLengthChange": true, //改变每页显示数据数量
                 "bFilter": true, //过滤功能

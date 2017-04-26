@@ -12,7 +12,7 @@ return array(
     'URL_MODEL'=>'0',
     'DEFAULT_ADMIN'=> 'admin',
     'AUTH_KEY'  =>  'mid',
-
+    'SUPER_ADMIN_YH' =>627520,
     'QINIU_BUCKET' => '',
     'QINIU_SECRET' => '',
     'QINIU_ACCESS' => '',
