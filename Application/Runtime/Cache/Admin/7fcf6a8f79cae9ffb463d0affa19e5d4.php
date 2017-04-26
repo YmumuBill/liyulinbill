@@ -120,64 +120,28 @@
     })
 </script>
 <div id="body">
-    <div class="row  wrapper border-bottom white-bg page-heading">
+    <div class="row wrapper mm-head-nav">
         <div class="col-lg-10">
-            <h2>文章列表</h2>
+            <h2>相册列表</h2>
             <ol class="breadcrumb">
-            <li>
-            <a href="<?php echo U('Index/index');?>">主页</a>
-            </li>
-            <li>
-                <strong>文章管理</strong>
-            </li>
+                <li>
+                    <a href="<?php echo U('Index/index');?>">主页</a>
+                </li>
+                <li>
+                    <strong>图片管理</strong>
+                </li>
             </ol>
         </div>
     </div>
     <div class="tab-nav">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="javascript:void(0);">文章管理</a></li>
-            <li><a href="<?php echo U('ArticleCate/index');?>">分类管理</a></li>
+            <li class="active"><a href="javascript:void(0);">相册管理</a></li>
+            <li><a href="<?php echo U('Photo/index');?>">相片管理</a></li>
+            <li><a href="javascript:void(0);">评论管理</a></li>
         </ul>
     </div>
-    <div class="ibox animated fadeInRight">
-        <div class="ibox-title">
-            <div>
-                <a class="btn btn-success" href="<?php echo U('Article/add');?>">+新增</a>
-            </div>
-        </div>
-        <div class="ibox-content">
-            <table class="table table-striped table-bordered table-hover dataTables-example">
-                <thead>
-                <tr>
-                    <th width="6%">#</th>
-                    <th width="16%">标题</th>
-                    <th width="11%">创建时间</th>
-                    <th width="11%">修改时间</th>
-                    <th width="7%">发布状态</th>
-                    <th width="13%">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php if(is_array($lists)): foreach($lists as $key=>$item): ?><tr>
-                        <td><?php echo ($item["id"]); ?></td>
-                        <td><?php echo ($item["title"]); ?></td>
-                        <td><?php echo (date("Y-m-d H:i:s",$item["create_time"])); ?></td>
-                        <td><?php echo (date("Y-m-d H:i:s",$item["update_time"])); ?></td>
-                        <td><?php if($item['is_effect'] == 0): ?>未发布<?php else: ?>已发布<?php endif; ?></td>
-                        <td>
-                            <a href="<?php echo U('Article/add',array('id'=>$item['id']));?>" class="btn btn-white" ><i class="icon-edit"></i>编辑</a>
+    <div class="content animated fadeInRight">
 
-                            <button class="btn btn-outline btn-success" action="effect" data-id="<?php echo ($item["id"]); ?>">
-                            <?php if($item['is_effect'] == 0): ?><i class="icon-eye-open"></i>发布<?php else: ?><i class="icon-eye-close"></i>取消发布<?php endif; ?>
-                            </button>
-                            <button class="btn btn-danger" action="del" data-id="<?php echo ($item["id"]); ?>"><i class="icon-trash"></i>删除</button>
-                        </td>
-                    </tr><?php endforeach; endif; ?>
-
-                </tbody>
-
-            </table>
-        </div>
     </div>
 </div>
 <script src="/public/admin/datatables/jquery.dataTables.js" type="application/javascript"></script>
@@ -191,17 +155,5 @@
         <strong>Copyright</strong> liyulinbill © 2017
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $('.dataTables-example').dataTable({
-            "bPaginate": true, //翻页功能
-            "bLengthChange": true, //改变每页显示数据数量
-            "bFilter": true, //过滤功能
-            "bSort": true, //排序功能
-            "bInfo": true,//页脚信息
-            "bAutoWidth": true,
-        });
-    });
-</script>
 </body>
 </html>

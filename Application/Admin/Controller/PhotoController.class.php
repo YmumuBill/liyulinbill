@@ -7,7 +7,7 @@
  */
 namespace Admin\Controller;
 use Think\Controller;
-class AlbumController extends BaseController{
+class PhotoController extends BaseController{
     public function index(){
         $this->display();
     }

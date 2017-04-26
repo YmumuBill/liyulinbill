@@ -58,9 +58,11 @@ header .navbar-header .mm-nav-toggle{position: fixed;top: 12px;left: 20px;}
 .tables table {
     width: 100%;
 }
+
 table tr th,table tr td{text-align: center;}
 table tr td a{padding-left: 10px;}
-
+table .btn{padding: 3px 6px;}
+table i{margin-right: 3px;}
 .tab-nav{margin-top: 10px;}
 .tab-nav .nav-tabs .active a{border-top: 3px solid #1c84c6;border-radius: 0px;border-bottom-color: #fff;}
 .tab-nav .nav-tabs .active a:hover{border-top: 3px solid #4d7496;border-radius: 0px;border-bottom-color: #fff;}
@@ -68,6 +70,7 @@ table tr td a{padding-left: 10px;}
 
 #body .btn-success{color: #fff;background-color: #1c84c6;border-color: #1c84c6;}
 #body .btn-success:hover{color: #fff;background-color: #1a7bb9;border-color: #1a7bb9;}
-#body .form-group{height: 35px;line-height: 35px;margin-top: 5px;}
+#body .form-group{clear: both;height: auto;box-sizing: border-box;margin: 10px 0px;border-bottom: 1px dashed #e6e6e6;padding: 14px 0px;}
+#body .form-group .control-label{padding: 0;box-sizing: border-box;}
 #body .control-label{text-align: center;}
 #body .ibox-title{border: none;}

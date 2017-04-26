@@ -214,10 +214,6 @@
                 show_error("异步请求规则不能作为菜单栏");
                 return;
             }
-            if(pid==0&&menutype!=1){
-                show_error("非一级菜单需要父级");
-                return;
-            }
             if(pid==id&&id){
                 show_error("父级与自身不能相同");
                 return;

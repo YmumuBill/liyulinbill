@@ -1,0 +1,20 @@
+.fileicon{  display: inline-block;  width: 16px;  height: 16px;  background: url(/public/common/image/file.png) no-repeat 0 0;  overflow: hidden;  vertical-align: middle;  }
+
+.fileicon-lg{  width: 32px;  height: 32px;  background: url(/public/common/image/file.png) no-repeat 0 0;  }
+
+.fileicon-default{  background-position: 0 0;  }
+.fileicon-txt{  background-position: -673px 0;  }
+.fileicon-xls, .fileicon-xlsx{  background-position: -32px 0;  }
+.fileicon-doc, .fileicon-docx{  background-position: -64px 0;  }
+.fileicon-ppt, .fileicon-pptx{  background-position: -96px 0;  }
+.fileicon-jpg, .fileicon-jpeg{  background-position: 0 -32px;  }
+.fileicon-gif{  background-position: -32px -32px;  }
+.fileicon-png{  background-position: -64px -32px;  }
+.fileicon-bmp{  background-position: -96px -32px;  }
+.fileicon-7z{  background-position: -128px 0;  }
+.fileicon-rar{  background-position: -160px 0;  }
+.fileicon-zip{  background-position: -192px 0;  }
+.fileicon-htm, .fileicon-html{  background-position: -288px 0;  }
+.fileicon-js{  background-position: -320px 0;  }
+.fileicon-css{  background-position: -352px 0;  }
+.fileicon-pdf{  background-position: -512px 0;  }
