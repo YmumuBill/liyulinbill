@@ -7,6 +7,22 @@
 <body>
 <include file="Public/header" />
 <include file="Public/left" />
+<style>
+    #gallery-container{    border: 1px solid #ccc;  box-shadow: 0 1px 0 #e5e5e5;  background: #ffffff;  margin-top: 20px;}
+    #gallery-container #collection-view{    padding-left: 22px; display: table;}
+    #gallery-container .collection > li{padding-right: 22px;    float: left;  box-sizing: border-box;  display: inline-block;  padding:15px 15px 15px 0px;}
+    #gallery-container .collection-item{padding: 0;    position: relative;  padding: 5px;  border: 1px solid #ccc;  font-size: 13px;  list-style: none;  color: #888;  transition: border-color ease-in-out .25s,box-shadow ease-in-out .15s;}
+    #gallery-container .item-wrapper{    position: relative;  padding: 5px 5px 6px;}
+    #gallery-container .item-thumbnail{    position: relative;  overflow: hidden;}
+    #gallery-container .item-info{    margin-top: 5px;  line-height: 2;}
+    #gallery-container .item-info a{    font-size: 14px;  font-weight: 700;  color: #333;}
+    #gallery-container .item-info .comments{float: right;}
+    #gallery-container .item-actions{    position: absolute;  right: -50px;  top: 0;  width: 50px;  background: #fff;  background: rgba(255,255,255,.9);  text-align: center;  transition: right ease-in-out .25s;  line-height: 25px;  font-size: 13px;  color: #666;}
+    #gallery-container .collection-item:hover .item-actions{right: 0;}
+    #gallery-container .item-actions a{    display: block;  text-decoration: none;  color: #333;}
+    #gallery-container .gallery-collection img{    width: 240px;  height: 160px;}
+    #gallery-container .table-footer{    padding: 12px 15px;  background: #f8f8f8;  text-align: right;  line-height: 1;  border-top: 1px solid #ddd;}
+</style>
 <div id="body">
     <div class="row wrapper mm-head-nav">
         <div class="col-lg-10">
@@ -29,9 +45,203 @@
         </ul>
     </div>
     <div class="content animated fadeInRight">
-
+        <div id="gallery-container">
+            <ul class="collection gallery-collection" id="collection-view">
+                <!--系统相册 id为0（不记录数据库的）-->
+                <li>
+                    <div class="collection-item album-item">
+                        <div class="item-wrapper">
+                            <div class="item-thumbnail">
+                                <a href="{:U('Photo/index')}">
+                                    <img src="/public/admin/image/placeholder.jpg"/>
+                                </a>
+                                <div class="item-actions">
+                                    <a href="javascript:void(0);" action="show"><i class="icon-eye-open"></i>显示</a>
+                                </div>
+                            </div>
+                            <div class="item-info">
+                                <div>
+                                    <a href="{:U('Photo/index')}" class="name">系统默认相册</a>
+                                    <span>(<span class="photo-count">{$ap_count}<span>)<span></span></span></span></span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="create-time">创建于<span>2017-02-15</span></span>
+                                    <span class="comments">评论(<span>{$ac_count}</span>)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-stroke"><div></div></div>
+                    </div>
+                </li>
+                <!--自建相册-->
+                <foreach name="lists" item="item" key="key">
+                    <li data-id="{$item.id}">
+                        <div class="collection-item album-item">
+                            <div class="item-wrapper">
+                                <div class="item-thumbnail">
+                                    <a href="{:U('Photo/index',array('id'=>$item['id']))}">
+                                        <if condition="$item.index_id eq 0">
+                                            <img src="/public/admin/image/placeholder.jpg" alt="">
+                                            <else/>
+                                            <img src="{$item.index_image}"/>
+                                        </if>
+                                    </a>
+                                    <div class="item-actions">
+                                        <input type="hidden" class="name" value="{$item.name}">
+                                        <input type="hidden" class="is_comment" value="{$item.is_comment}">
+                                        <a href="javascript:void(0);" action="edit" data-id="{$item.id}"><i class="icon-edit"></i> 编辑</i></a>
+                                        <a href="javascript:void(0);" action="del" data-id="{$item.id}"><i class="icon-trash"></i> 删除</i></a>
+                                    </div>
+                                </div>
+                                <div class="item-info">
+                                    <div>
+                                        <a href="{:U('Album/index',array('id'=>$item['id']))}" class="name">{$item.name}</a>
+                                        <span>(<span class="photo-count">{$item.photo_count}<span>)<span></span></span></span></span>
+                                    </div>
+                                    <div class="clearfix">
+                                        <span class="create-time">创建于<span>{$item.create_time}</span></span>
+                                        <span class="comments">评论(<span>{$item.comment_count}</span>)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-stroke"><div></div></div>
+                        </div>
+                    </li>
+                </foreach>
+            </ul>
+            <div class="clearfix table-footer" id="table-data-view">
+                <div class="pull-left">
+                    <button class="btn btn-success" id="addAlbum">
+                        <i class="icon-plus"></i> 添加相册
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="modal " id="myModal" tabindex="1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close mm-close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">添加/编辑相册</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>相册名称</label>
+                    <input type="text" placeholder="请输入相册名称" name="name" class="form-control" id="album-name">
+                </div>
+                <div class="form-group">
+                    <label >评论权限</label>
+                    <div class="mm-comment">
+                        <label class="radio-inline"><input type="radio" name="comment" value="0" checked="checked">禁止用户评论单张照片</label>
+                        <label class="radio-inline"><input type="radio" name="comment" value="1">允许用户评论单张照片</label>
+                    </div>
+                </div>
+                <input type="hidden" id="album-id" value=""/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white mm-close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-success">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <include file="Public/footer"/>
+<script>
+    $(function(){
+        //新增
+        $("#addAlbum").click(function(){
+            $("#myModal").addClass("in");
+            $("#myModal").css("display","block");
+        });
+        bind_action();
+
+        $("#myModal .btn-success").click(function(){
+            var name_input = $("#album-name");
+            var id = $("#album-id").val();
+            if(name_input.val()==""){
+                show_error("请输入相册名称！");
+                name_input.focus();
+                return;
+            }
+            var is_comment = $("input[name='comment']:checked").val();
+            $.ajax({
+                url:"{:U('Album/save')}",
+                data: {"name":name_input.val(),"id":id,"is_comment":is_comment, "ajax":1},
+                type:"POST",
+                dataType: "json",
+                success:function(msg){
+                    if(msg.statusCode==200){
+                        if(!msg.insert){
+                            $("#collection-view li[data-id='"+id+"']").remove();
+                        }
+                        var contentHtml = "";
+                        contentHtml = "<li>" +
+                                        "<div class='collection-item album-item'>" +
+                                            "<div class='item-wrapper'>" +
+                                "<div class='item-thumbnail'>" +
+                                    "<a href='/m.php?m=Admin&c=Photo&a=index&id="+id+"'><img src='/public/admin/image/placeholder.jpg' alt=''></a>" +
+                                "</div>" +
+                                "<div class='item-info'>" +
+                                    "<div><a href='javascript:void(0);' class='name'>"+name_input.val()+"</a></div>" +
+                                    "<div class='clearfix'><span class='create-time'>刚才</span><span class='comments'>评论(0)</span></div>" +
+                                "</div>" +
+                                            "</div>" +
+                                        "</div>" +
+                                    "</li>";
+                        $("#collection-view").append(contentHtml);
+                        name_input.val("");
+                        $("#myModal").fadeOut(300);
+                    }else{
+                        show_error(msg.message);
+                    }
+                },
+                error:function(msg){
+                    show_error("网络异常！请刷新重试");
+                }
+            })
+        });
+
+
+    })
+    function bind_action(){
+        $(".item-actions a[action='del']").click(function(){
+            var id = $(this).attr("data-id");
+            var obj = this;
+            $.ajax({
+                url:"{:U('Album/del')}",
+                data: {"id":id, "ajax":1},
+                type:"POST",
+                dataType: "json",
+                success:function(msg){
+                    if(msg.statusCode==200){
+                        $(obj).parents("li").remove();
+                    }else{
+                        show_error(msg.message);
+                    }
+                },
+                error:function(msg){
+                    show_error("网络异常！请刷新重试");
+                }
+            })
+
+        });
+
+        $(".item-actions a[action='edit']").click(function(){
+            var id = $(this).attr("data-id");
+            var name = $(this).parents(".item-actions").find(".name");
+            var is_comment = $(this).parents(".item-actions").find(".is_comment");
+            $("#album-id").val(id);
+            $("#album-name").val(name.val());
+            $(".mm-comment input[value='"+is_comment.val()+"']").prop("checked",true);
+            $("#addAlbum").click();
+        });
+    }
+</script>
 </body>
 </html>

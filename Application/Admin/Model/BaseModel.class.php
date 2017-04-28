@@ -33,14 +33,23 @@ class BaseModel extends Model
         $data = $this->where($condition)->getField($field,$is_arr);
         return $data;
     }
-
+    //直接物理删除
     public function delOne($condition){
         if(empty($condition)){
-            echo json_encode(array("status"=>0,"info"=>"删除失败"));
-            exit;
+            return false;
         }else{
             $result = $this->where($condition)->delete();
             return $result;
         }
     }
+    //逻辑删除
+    public function setDelStatus($id=0){
+        if($id==0){
+            return false;
+        }else{
+            $result = $this->where(array("id"=>$id))->setField("is_delete",1);
+            return $result;
+        }
+    }
+
 }

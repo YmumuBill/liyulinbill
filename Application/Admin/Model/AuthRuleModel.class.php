@@ -8,7 +8,7 @@ class AuthRuleModel extends BaseModel
         array('title', 'require', '菜单名必须'),
         array('name', '', '规则地址必须唯一', 0, 'unique'),
         array('menutype',array(0,1,2),'菜单类型错误',2,'in'),
-        array('type',array(0,1,2),'权限级别错误',2,'in'),
+        array('type',array(0,1,2,3),'权限级别错误',2,'in'),
     );
 
     /**

@@ -82,20 +82,26 @@ class BaseController extends Controller {
                 ),
             );
         }else{
-            $rules = M("AuthGroup")->where(array("id"=>$roleId,"status"=>1))->getField("rules");
-            $menuLists = D("AuthRule")->getMenu("id in (".$rules.") and menutype != 0");
-            $menu = \Common\Lib\ArrayTree::list2tree($menuLists,0,"id","pid","group");
-            foreach($menu as $k=>$v){
-                $menu[$k]['url'] = U($v['name']);
-                if(!empty($v['group'])){
-                    $menu[$k]['level'] = 2;
-                    foreach($v['group'] as $k2=>$v2){
-                        $menu[$k]['group'][$k2]['url'] = U($v2['name']);
+            $menuName = "menu".$roleId;
+            $cache = S(array('type'=>'file','prefix'=>$menuName,'expire'=>3600));
+            if($cache->$menuName == null) {
+                $rules = M("AuthGroup")->where(array("id" => $roleId, "status" => 1))->getField("rules");
+                $menuLists = D("AuthRule")->getMenu("id in (" . $rules . ") and menutype != 0");
+                $menu = \Common\Lib\ArrayTree::list2tree($menuLists, 0, "id", "pid", "group");
+                foreach ($menu as $k => $v) {
+                    $menu[$k]['url'] = U($v['name']);
+                    if (!empty($v['group'])) {
+                        $menu[$k]['level'] = 2;
+                        foreach ($v['group'] as $k2 => $v2) {
+                            $menu[$k]['group'][$k2]['url'] = U($v2['name']);
+                        }
+                    } else {
+                        $menu[$k]['level'] = 1;
                     }
-                }else{
-                    $menu[$k]['level'] = 1;
                 }
+                $cache->$menuName = $menu;
             }
+            $menu = $cache->$menuName;
         }
 
         foreach($menu as $k=>$v){
