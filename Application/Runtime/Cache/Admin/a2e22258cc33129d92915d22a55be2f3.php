@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>后台管理系统</title>
+    <title>优对后台管理系统</title>
     <style>
         .modal .modal-dialog .modal-body .control-label{height: 45px;line-height: 33px;}
         .modal .modal-dialog .modal-body .form-group{margin: 5px 0;height: 45px;}
@@ -209,6 +209,7 @@
                             <option value="0">无</option>
                             <option value="1">url</option>
                             <option value="2">异步请求</option>
+                            <option value="3">细则权限</option>
                         </select>
                     </div>
                 </div>
@@ -267,7 +268,14 @@
                         var name = $(this).parents("tr").find("td:nth-of-type(4)").text();
                         var title = $(this).parents("tr").find("td:nth-of-type(5)").text();
                         var typeName = $(this).parents("tr").find("td:nth-of-type(6)").text();
-                        var type = typeName=="无"?0:(typeName=="url"?1:2);
+                        var type = 0;
+                        switch (typeName){
+                            case "无":type = 0;break;
+                            case "url":type = 1;break;
+                            case "异步请求":type = 2;break;
+                            case "细则权限":type = 3;break;
+                            default:break;
+                        }
                         $("#rule-pid option[value='"+pid+"']").attr("selected",true);
                         $("#rule-menutype option[value='"+menutype+"']").attr("selected",true);
                         $("#rule-type option[value='"+type+"']").attr("selected",true);

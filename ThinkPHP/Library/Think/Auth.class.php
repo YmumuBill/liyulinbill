@@ -30,14 +30,14 @@ namespace Think;
 -- id:主键，name：规则唯一标识, title：规则中文名称 status 状态：为1正常，为0禁用，condition：规则表达式，为空表示存在就验证，不为空表示按照条件验证
 -- ----------------------------
  DROP TABLE IF EXISTS `think_auth_rule`;
-CREATE TABLE `think_auth_rule` (
-    `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-    `name` char(80) NOT NULL DEFAULT '',
-    `title` char(20) NOT NULL DEFAULT '',
-    `type` tinyint(1) NOT NULL DEFAULT '1',
-    `status` tinyint(1) NOT NULL DEFAULT '1',
+CREATE TABLE `think_auth_rule` (  
+    `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,  
+    `name` char(80) NOT NULL DEFAULT '',  
+    `title` char(20) NOT NULL DEFAULT '',  
+    `type` tinyint(1) NOT NULL DEFAULT '1',    
+    `status` tinyint(1) NOT NULL DEFAULT '1',  
     `condition` char(100) NOT NULL DEFAULT '',  # 规则附件条件,满足附加条件的规则,才认为是有效的规则
-    PRIMARY KEY (`id`),
+    PRIMARY KEY (`id`),  
     UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 -- ----------------------------
@@ -123,8 +123,7 @@ class Auth{
                 if ( in_array($auth,$name) && $intersect==$param ) {  //如果节点相符且url参数满足
                     $list[] = $auth ;
                 }
-            }
-            else if (in_array($auth , $name)){
+            }else if (in_array($auth , $name)){
                 $list[] = $auth ;
             }
         }
@@ -224,7 +223,7 @@ class Auth{
     protected function getUserInfo($uid) {
         static $userinfo=array();
         if(!isset($userinfo[$uid])){
-             $userinfo[$uid]=M()->where(array('role_id'=>$uid))->table($this->_config['AUTH_USER'])->find();
+             $userinfo[$uid]=M()->where(array('uid'=>$uid))->table($this->_config['AUTH_USER'])->find();
         }
         return $userinfo[$uid];
     }
