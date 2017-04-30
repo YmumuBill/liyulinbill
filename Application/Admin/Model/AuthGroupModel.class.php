@@ -16,7 +16,10 @@ class AuthGroupModel extends BaseModel
             show(300,$this->getError());
         }
         else{
-            return $this->add();
+            $id = $this->add();
+            $group_access['uid'] = $id;
+            $group_access['group_id'] = $id;
+            M("AuthGroupAccess")->add($group_access);
         }
     }
     /**

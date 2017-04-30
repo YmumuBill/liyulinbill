@@ -51,9 +51,16 @@
                         <td>{$item.id}</td>
                         <td>{$item.title}</td>
                         <td>{$item.create_time|date="Y-m-d H:i:s",###}</td>
-                        <td>{$item.create_time|date="Y-m-d H:i:s",###}</td>
+                        <td>{$item.update_time|date="Y-m-d H:i:s",###}</td>
                         <td><if condition="$item['is_effect'] eq 0">未发布<else/>已发布</if></td>
-                        <td><a href="{:U('News/edit',array('id'=>$item.id))}">编辑</a><button onclick="change_effect(this,{$item.id})" class="btn btn-outline btn-success" style="float: none;border: 1px solid #18a689;"><if condition="$item['is_effect'] eq 0">发布<else/>取消发布</if></button></td>
+                        <td>
+                            <a href="{:U('Article/add',array('id'=>$item['id']))}" class="btn btn-white" ><i class="icon-edit"></i>编辑</a>
+
+                            <button class="btn btn-outline btn-success" action="effect" data-id="{$item.id}">
+                            <if condition="$item['is_effect'] eq 0"><i class="icon-eye-open"></i>发布<else/><i class="icon-eye-close"></i>取消发布</if>
+                            </button>
+                            <button class="btn btn-danger" action="del" data-id="{$item.id}"><i class="icon-trash"></i>删除</button>
+                        </td>
                     </tr>
                 </foreach>
 

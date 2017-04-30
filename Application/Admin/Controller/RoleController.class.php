@@ -5,7 +5,7 @@ class RoleController extends BaseController {
 
     //权限设置
     public function conf(){
-        $mFirst = D("AuthRule")->getAll("menutype != 0");
+        $mFirst = D("AuthRule")->getAll("menutype != 0 or name = 'Upload'");
         $this->assign("mFirst",$mFirst);
         $this->display();
     }

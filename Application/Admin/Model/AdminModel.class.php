@@ -26,7 +26,7 @@ class AdminModel extends Model
             }
         }
         $this->updateLogin($info['id']);
-        $info['adm_role_name'] = M("Role")->where(array("id"=>$info['role_id']))->getField("name");
+        $info['adm_role_name'] = D("AuthGroup")->getNewField(array("id"=>$info['role_id']),"title");
 
         session('adminInfo', $info);
         session(C('AUTH_KEY'), $info['role_id']);

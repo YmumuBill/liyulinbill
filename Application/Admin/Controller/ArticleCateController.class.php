@@ -30,9 +30,9 @@ class ArticleCateController extends BaseController{
         $cateLogic = A("ArticleCate","Logic");
         $res = $id==0?$cateLogic->add_cate($name):$cateLogic->edit_cate($name,$id);
         if($res !== false){
-            show(200,"修改成功");
+            show(200,"修改成功",false,array("contentId"=>$res,"contentName"=>$name));
         }else{
-            show(300,"修改失败");
+            show(300,"操作失败");
         }
     }
 

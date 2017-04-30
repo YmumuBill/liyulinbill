@@ -1,0 +1,27 @@
+[ 2017-04-25T09:27:24+08:00 ] 127.0.0.1 /m.php?m=Admin&c=News&a=edit&id=Arrayid
+ERR: 无法加载控制器:News
+
+[ 2017-04-25T10:41:29+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Role&a=conf
+ERR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Upload' in 'where clause'
+
+[ 2017-04-25T10:45:31+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=login
+ERR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'saas.liyulin_role' doesn't exist
+
+[ 2017-04-25T10:45:35+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=login
+ERR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'saas.liyulin_role' doesn't exist
+
+[ 2017-04-25T10:49:41+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Admin&a=login
+ERR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'saas.liyulin_role' doesn't exist
+
+[ 2017-04-25T14:55:12+08:00 ] 127.0.0.1 /m.php?m=Admin&c=News&a=edit&id=Arrayid
+ERR: 无法加载控制器:News
+
+[ 2017-04-25T15:59:35+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Album&a=index
+ERR: 模板不存在:./Application/Admin/View/Album/index.html
+
+[ 2017-04-25T15:59:39+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Photo&a=index
+ERR: 模板不存在:./Application/Admin/View/Photo/index.html
+
+[ 2017-04-25T16:29:18+08:00 ] 127.0.0.1 /m.php?m=Admin&c=Album&a=index
+ERR: 模板不存在:./Application/Admin/View/Album/index.html
+

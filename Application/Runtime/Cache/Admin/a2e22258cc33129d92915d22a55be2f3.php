@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>后台管理系统</title>
+    <title>优对后台管理系统</title>
     <style>
         .modal .modal-dialog .modal-body .control-label{height: 45px;line-height: 33px;}
         .modal .modal-dialog .modal-body .form-group{margin: 5px 0;height: 45px;}
@@ -95,14 +95,14 @@
 <div id="left">
     <nav class="navbar-default navbar-static-side">
         <ul class="nav">
-            <?php if(is_array($menu)): foreach($menu as $key=>$item): if($item["show"] == 1): ?><li class="<?php echo ($item["class"]); ?>">
-                        <?php if($item['level'] == 1): ?><a href="/m.php?m=Admin&c=<?php echo ($item["m"]); ?>&a=<?php echo ($item["a"]); ?>"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["name"]); ?></a>
-                            <?php else: ?>
-                            <a href="javascript:void(0)" class="mm-left-toggle-ul"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["name"]); ?><i class="icon-angle-left"></i></a>
-                            <ul class="nav nav-second-level">
-                                <?php if(is_array($item["group"])): foreach($item["group"] as $key1=>$item1): if($item1["show"] == 1): ?><li class="<?php echo ($item1["class"]); ?>"><a href="/m.php?m=Admin&c=<?php echo ($item1["m"]); ?>&a=<?php echo ($item1["a"]); ?>"><i class="icon-angle-right"></i> <?php echo ($item1["name"]); ?></a></li><?php endif; endforeach; endif; ?>
-                            </ul><?php endif; ?>
-                    </li><?php endif; endforeach; endif; ?>
+            <?php if(is_array($menu)): foreach($menu as $key=>$item): ?><li class="<?php echo ($item["class"]); ?>">
+                    <?php if($item['level'] == 1): ?><a href="<?php echo ($item["url"]); ?>"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["title"]); ?></a>
+                        <?php else: ?>
+                        <a href="javascript:void(0)" class="mm-left-toggle-ul"><i class="fa <?php echo ($item["iclass"]); ?>"></i><?php echo ($item["title"]); ?><i class="icon-angle-left"></i></a>
+                        <ul class="nav nav-second-level">
+                            <?php if(is_array($item["group"])): foreach($item["group"] as $key1=>$item1): ?><li class="<?php echo ($item1["class"]); ?>"><a href="<?php echo ($item1["url"]); ?>"><i class="icon-angle-right"></i> <?php echo ($item1["title"]); ?></a></li><?php endforeach; endif; ?>
+                        </ul><?php endif; ?>
+                </li><?php endforeach; endif; ?>
         </ul>
     </nav>
 </div>
@@ -209,6 +209,7 @@
                             <option value="0">无</option>
                             <option value="1">url</option>
                             <option value="2">异步请求</option>
+                            <option value="3">细则权限</option>
                         </select>
                     </div>
                 </div>
@@ -267,7 +268,14 @@
                         var name = $(this).parents("tr").find("td:nth-of-type(4)").text();
                         var title = $(this).parents("tr").find("td:nth-of-type(5)").text();
                         var typeName = $(this).parents("tr").find("td:nth-of-type(6)").text();
-                        var type = typeName=="无"?0:(typeName=="url"?1:2);
+                        var type = 0;
+                        switch (typeName){
+                            case "无":type = 0;break;
+                            case "url":type = 1;break;
+                            case "异步请求":type = 2;break;
+                            case "细则权限":type = 3;break;
+                            default:break;
+                        }
                         $("#rule-pid option[value='"+pid+"']").attr("selected",true);
                         $("#rule-menutype option[value='"+menutype+"']").attr("selected",true);
                         $("#rule-type option[value='"+type+"']").attr("selected",true);
@@ -332,10 +340,6 @@
             }
             if(type==2&&menutype!=0){
                 show_error("异步请求规则不能作为菜单栏");
-                return;
-            }
-            if(pid==0&&menutype!=1){
-                show_error("非一级菜单需要父级");
                 return;
             }
             if(pid==id&&id){

@@ -11,13 +11,22 @@ class RoleLogic extends Controller
         foreach($lists as $k=>$v){
             $data7 = "<button class='btn btn-white' action='edit' data-id='".$v['id']."'><i class='icon-edit'></i>  编辑</button>
                        <button class='btn btn-danger' action='del' data-id='".$v['id']."'><i class='icon-trash'></i>  删除</button>";
+            $type = "无";
+            switch($v['type']){
+                case 0:$type = "无";break;
+                case 1:$type = "url";break;
+                case 2:$type = "异步请求";break;
+                case 3:$type = "细则权限";break;
+                default:
+                    break;
+            }
             $info = array(
                 'data1'=>$v['id'],
                 'data2'=>$v['pid'],
                 'data3'=>$v['menutype'],
                 'data4'=>$v['name'],
                 'data5'=>$v['title'],
-                'data6'=>$v['type']==0?"无":($v['type']==1?"url":"异步请求"),
+                'data6'=>$type,
                 'data7'=>$data7
             );
             array_push($data,$info);

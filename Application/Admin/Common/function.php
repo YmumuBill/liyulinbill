@@ -5,7 +5,7 @@ function save_log( $type , $content ,$backups=0){
     if($adm_session['role_id']==627520) {
         $adm_role = "超级管理员";
     }else {
-        $adm_role = M("Role")->where("id = ".$adm_session['role_id'])->getField("name");
+        $adm_role = D("AuthGroup")->getNewField(array("id"=>$adm_session['role_id']),"title");
     }
     $log_data = array(
         "user_id"=>$adm_session["id"],
@@ -25,7 +25,7 @@ function save_backups($ids,$content){
     if($adm_session['role_id']==0) {
         $adm_role = "超级管理员";
     }else {
-        $adm_role = M("Role")->where("id = ".$adm_session['role_id'])->getField("name");
+        $adm_role = D("AuthGroup")->getNewField(array("id"=>$adm_session['role_id']),"title");
     }
     $log_data = array(
         "ip" =>get_client_ip(),
@@ -70,6 +70,20 @@ function check_verify($code, $id = ''){
     $verify = new \Think\Verify();
     return $verify->check($code, $id);
 }
+
+
+/***
+ * 获取文本中首张图片地址
+ **/
+function getFirstPic($content){
+    if(preg_match_all("/(src)=([\"|']?)([^ \"'>]+\.(gif|jpg|jpeg|bmp|png))\\2/i", $content, $matches)){
+        $str=$matches[3][0];
+        if(preg_match('/\/ueditor\/php\/upload\/image/',$str)){
+            return $str1=substr($str,6);
+        }
+    }
+}
+
 
 
 //测试函数
