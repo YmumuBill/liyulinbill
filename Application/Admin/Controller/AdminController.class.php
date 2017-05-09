@@ -8,9 +8,9 @@ class AdminController extends Controller {
             $password = I('post.adm_pwd', '', 'trim');
             $captcha  = I('post.yzm', '', 'trim');
             if (!$username || !$password) return show(300, '用户名或密码不能为空！');
-
+            if(!$captcha) echo show(300,"请输入验证码！");
             $verify = new \Think\Verify();
-            if($verify->check($captcha, 1))return show(300, '验证码错误！');
+            if(!$verify->check($captcha, ""))return show(300, '验证码错误！');
             $result = D('Admin')->login($username, $password);
             //记录行为
             $msg = '登录成功';

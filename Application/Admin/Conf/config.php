@@ -13,7 +13,8 @@ return array(
     'DEFAULT_ADMIN'=> 'admin',
     'AUTH_KEY'  =>  'mid',
     'SUPER_ADMIN_YH' =>627520,
-    'QINIU_BUCKET' => '',
-    'QINIU_SECRET' => '',
-    'QINIU_ACCESS' => '',
+    'QINIU_BUCKET' => 'liyulin-test',
+    'QINIU_ACCESS' => 'J4DXm5KBAxDzWAdeKIgoFdaBKiLj0s--bRkwYJND',
+    'QINIU_SECRET' => 'TGwE-fi6BvpuZkiXqQPFIzwdSOjgHsSj9PbMY6AY',
+    'QINIU_DOMAIN' => 'http://opmfvko5s.bkt.clouddn.com/',
 );

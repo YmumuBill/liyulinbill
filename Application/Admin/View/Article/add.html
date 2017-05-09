@@ -245,9 +245,13 @@
                                 other_item.remove();
                             }
                         },
-                        error: function (data, status, e)
+                        error: function (data)
                         {
-                            show_error('请重试!!');
+                            if(data.statusCode==300){
+                                show_error(data.message);
+                            }else{
+                                show_error('请重试!!');
+                            }
                         }
                     });
 

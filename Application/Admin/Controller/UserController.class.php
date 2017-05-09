@@ -8,21 +8,24 @@
 namespace Admin\Controller;
 use Think\Controller;
 class UserController extends BaseController {
+    protected $model;
+    protected $logic;
+    public function __construct(){
+        parent::__construct();
+        $this->model = M('User');
+        $this->logic = A("User","Logic");
+    }
     //注册用户列表
     public function index(){
-        //判断用户的细则权限
-        $roleId = is_login();
-        $is_show_user_info = 1;
-        if(!check_auth("User/show_user_info",$roleId,3)){
-            $is_show_user_info = 0;
-        }
-        $this->assign("showUserInfo",$is_show_user_info);
         $this->display();
     }
 
     public function get_lists(){
-        $userLogic = A("User","Logic");
-        $data = $userLogic->more_lists();
+        $data = $this->logic->more_lists();
         $this->ajaxReturn($data);
+    }
+
+    public function del(){
+        return parent::delLogic();
     }
 }

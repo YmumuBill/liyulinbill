@@ -74,3 +74,19 @@ table i{margin-right: 3px;}
 #body .form-group .control-label{padding: 0;box-sizing: border-box;}
 #body .control-label{text-align: center;}
 #body .ibox-title{border: none;}
+
+.ibox-title .mm-input-text{
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    -webkit-transition: border-color .15s ease-in-out 0s, box-shadow .15s ease-in-out 0s;
+    transition: border-color .15s ease-in-out 0s, box-shadow .15s ease-in-out 0s;
+    width: 222px;
+    margin-right: 10px;
+    font-size: 14px;
+    float: left;
+}

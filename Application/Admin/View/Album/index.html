@@ -47,32 +47,6 @@
     <div class="content animated fadeInRight">
         <div id="gallery-container">
             <ul class="collection gallery-collection" id="collection-view">
-                <!--系统相册 id为0（不记录数据库的）-->
-                <li>
-                    <div class="collection-item album-item">
-                        <div class="item-wrapper">
-                            <div class="item-thumbnail">
-                                <a href="{:U('Photo/index')}">
-                                    <img src="/public/admin/image/placeholder.jpg"/>
-                                </a>
-                                <div class="item-actions">
-                                    <a href="javascript:void(0);" action="show"><i class="icon-eye-open"></i>显示</a>
-                                </div>
-                            </div>
-                            <div class="item-info">
-                                <div>
-                                    <a href="{:U('Photo/index')}" class="name">系统默认相册</a>
-                                    <span>(<span class="photo-count">{$ap_count}<span>)<span></span></span></span></span>
-                                </div>
-                                <div class="clearfix">
-                                    <span class="create-time">创建于<span>2017-02-15</span></span>
-                                    <span class="comments">评论(<span>{$ac_count}</span>)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-stroke"><div></div></div>
-                    </div>
-                </li>
                 <!--自建相册-->
                 <foreach name="lists" item="item" key="key">
                     <li data-id="{$item.id}">

@@ -134,7 +134,7 @@
     <div class="ibox animated fadeInRight">
         <div class="ibox-title">
             <div>
-                <input type="text" name="name" value="">
+                <input type="text" name="name" value="" placeholder="请输入姓名" class="mm-input-text">
                 <button class="btn btn-success " id="search">查询</button>
             </div>
         </div>
@@ -142,24 +142,15 @@
             <table class="table table-striped table-bordered table-hover dataTables-example">
                 <thead>
                 <tr>
-                    <?php if($showUserInfo == 0): ?><th >id</th>
-                        <th >昵称</th>
-                        <th >姓名</th>
-                        <th >性别</th>
-                        <th >手机号</th>
-                        <th >邮箱</th>
-                        <th >注册时间</th>
-                    <?php else: ?>
-                        <th >id</th>
-                        <th >昵称</th>
-                        <th >姓名</th>
-                        <th >性别</th>
-                        <th >手机号</th>
-                        <th >邮箱</th>
-                        <th>证件号</th>
-                        <th >注册时间</th>
-                        <th>操作</th><?php endif; ?>
-                    <input type="hidden" value="<?php echo ($showUserInfo); ?>" id="isShowUser">
+                    <th >id</th>
+                    <th >昵称</th>
+                    <th >姓名</th>
+                    <th >性别</th>
+                    <th >手机号</th>
+                    <th >邮箱</th>
+                    <th>证件号</th>
+                    <th >注册时间</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
             </table>
@@ -185,31 +176,18 @@
 
         get_lists();
         function get_lists(){
-            var is_show = $("#isShowUser").val();
             var jsonRe;
-            if(is_show == 0 ){
-                jsonRe = [
-                    {"data": "data1"},
-                    {"data": "data2"},
-                    {"data": "data3"},
-                    {"data": "data4"},
-                    {"data": "data5"},
-                    {"data": "data6"},
-                    {"data": "data7"},
-                ];
-            }else{
-                jsonRe = [
-                    {"data": "data1"},
-                    {"data": "data2"},
-                    {"data": "data3"},
-                    {"data": "data4"},
-                    {"data": "data5"},
-                    {"data": "data6"},
-                    {"data": "data7"},
-                    {"data": "data8"},
-                    {"data": "data9"},
-                ];
-            }
+            jsonRe = [
+                {"data": "data1"},
+                {"data": "data2"},
+                {"data": "data3"},
+                {"data": "data4"},
+                {"data": "data5"},
+                {"data": "data6"},
+                {"data": "data7"},
+                {"data": "data8"},
+                {"data": "data9"},
+            ];
             $('.dataTables-example').dataTable().fnDestroy();
             $('.dataTables-example').dataTable({
                 "serverSide": true,
@@ -225,7 +203,6 @@
                 "columns": jsonRe,
                 "sAjaxSource":"<?php echo U('User/get_lists');?>",
                 "fnServerData":receiveDataCallback,
-                "initComplete":initComplete(),
             });
             $("table:eq(0) th").removeClass("sorting_asc");
         }
@@ -236,12 +213,44 @@
                 "dataType":"json",
                 "data":{"aoData":aoData,"ajax":1,"name":$(".ibox-title input[name='name']").val()},
                 "success":function(resp){
+                    if(resp.statusCode == 300){
+                        show_error(resp.message);
+                    }
                     fnCallback(resp);
-                }
+                },
+                "complete":initComplete,
             })
         }
         function initComplete(){
-            console.log("in");
+            $(".dataTables-example .mm-del").click(function(){
+                var id = $(this).attr("data-id");
+                var action = $(this).attr("action");
+                var obj = this;
+                $.ajax({
+                    'type':"POST",
+                    'url':'<?php echo U("User/del");?>',
+                    'dataType':"json",
+                    'data':{'id':id,'action':action,"ajax":1},
+                    "success":function(msg){
+                        if(msg.statusCode==200){
+                            if(action == 1){
+                                show_error("已加入黑名单！");
+                                $(obj).html("已拉黑");
+                            }else{
+                                show_error("已加入白名单！");
+                                $(obj).html("已正常");
+                            }
+                            $(obj).prop("disabled",true);
+                        }else{
+                            show_error(msg.message);
+                        }
+                    },
+                    "error":function(msg){
+                        console.log(msg);
+                        show_error("网络异常，请刷新重试！");
+                    }
+                })
+            })
         }
     })
 

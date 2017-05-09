@@ -156,4 +156,21 @@ class BaseController extends Controller {
         $this->assign('info', $info);
         $this->display();
     }
+
+    /*公共删除方法-逻辑删除*/
+    public function delLogic(){
+        $id = I("id",0);
+        $action = I("action",0);
+        if($id==0){
+            echo show(300,"参数类型错误！");
+        }
+        else{
+            $result = $this->model->where(array("id"=>$id))->setField("is_delete",$action);
+            if($result !== false){
+                echo show(200,"操作成功！");
+            }else{
+                echo show(300,"操作失败！");
+            }
+        }
+    }
 }

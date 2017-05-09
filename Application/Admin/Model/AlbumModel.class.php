@@ -30,4 +30,9 @@ class AlbumModel extends BaseModel{
         }
         return $res;
     }
+
+    public function mmFields($condition="",$field=""){
+        $result = $this->where($condition)->field($field)->select();
+        return $result;
+    }
 }
