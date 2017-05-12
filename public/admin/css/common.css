@@ -73,8 +73,9 @@ table i{margin-right: 3px;}
 #body .form-group{clear: both;height: auto;box-sizing: border-box;margin: 10px 0px;border-bottom: 1px dashed #e6e6e6;padding: 14px 0px;}
 #body .form-group .control-label{padding: 0;box-sizing: border-box;}
 #body .control-label{text-align: center;}
+#body .ibox{margin: 10px;box-shadow: 0px 2px 10px rgba(0,0,0,0.25)}
 #body .ibox-title{border: none;}
-
+#body .nav-tabs{border-bottom: none;}
 .ibox-title .mm-input-text{
     background-color: #FFF;
     background-image: none;
@@ -90,3 +91,9 @@ table i{margin-right: 3px;}
     font-size: 14px;
     float: left;
 }
+#body .laydate-icon{    padding: 6px 12px;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    font-size: 14px;
+    height: 34px;
+    line-height: 34px;}

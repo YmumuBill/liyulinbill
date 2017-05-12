@@ -21,6 +21,8 @@ class FiguresController extends BaseController{
     }
 
     public function add(){
+        $region = A("Region","Logic");
+        $region->get_region();
         $content = $this->fetch("Figures:edit");
         $this->show($content);
     }
